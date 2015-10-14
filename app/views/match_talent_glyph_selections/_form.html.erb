@@ -1,0 +1,29 @@
+<%= form_for(@match_talent_glyph_selection) do |f| %>
+  <% if @match_talent_glyph_selection.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@match_talent_glyph_selection.errors.count, "error") %> prohibited this match_talent_glyph_selection from being saved:</h2>
+
+      <ul>
+      <% @match_talent_glyph_selection.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :Player_id %><br>
+    <%= f.text_field :Player_id %>
+  </div>
+  <div class="field">
+    <%= f.label :Match_id %><br>
+    <%= f.text_field :Match_id %>
+  </div>
+  <div class="field">
+    <%= f.label :TalentGlyphSelection_id %><br>
+    <%= f.text_field :TalentGlyphSelection_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

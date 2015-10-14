@@ -1,0 +1,29 @@
+<h1>Listing raw_battles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Raw battle data</th>
+      <th>Parse status</th>
+      <th>Status message</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @raw_battles.each do |raw_battle| %>
+      <tr>
+        <td><%= raw_battle.raw_battle_data %></td>
+        <td><%= raw_battle.parse_status %></td>
+        <td><%= raw_battle.status_message %></td>
+        <td><%= link_to 'Show', raw_battle %></td>
+        <td><%= link_to 'Edit', edit_raw_battle_path(raw_battle) %></td>
+        <td><%= link_to 'Destroy', raw_battle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Raw battle', new_raw_battle_path %>

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Player:</strong>
+  <%= @score.Player %>
+</p>
+
+<p>
+  <strong>Match:</strong>
+  <%= @score.Match %>
+</p>
+
+<p>
+  <strong>Player faction:</strong>
+  <%= @score.player_faction %>
+</p>
+
+<p>
+  <strong>Killing blows:</strong>
+  <%= @score.killing_blows %>
+</p>
+
+<p>
+  <strong>Damage done:</strong>
+  <%= @score.damage_done %>
+</p>
+
+<p>
+  <strong>Healing done:</strong>
+  <%= @score.healing_done %>
+</p>
+
+<p>
+  <strong>Ratings adjustment:</strong>
+  <%= @score.ratings_adjustment %>
+</p>
+
+<%= link_to 'Edit', edit_score_path(@score) %> |
+<%= link_to 'Back', scores_path %>

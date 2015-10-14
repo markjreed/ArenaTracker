@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_time: MyString
+  arena_name: MyString
+  winning_faction: 1
+
+two:
+  date_time: MyString
+  arena_name: MyString
+  winning_faction: 1

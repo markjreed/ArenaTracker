@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  raw_battle_data: MyString
+  parse_status: MyString
+  status_message: MyString
+
+two:
+  raw_battle_data: MyString
+  parse_status: MyString
+  status_message: MyString

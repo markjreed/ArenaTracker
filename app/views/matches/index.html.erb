@@ -1,0 +1,111 @@
+<h1>Listing matches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date time</th>
+      <th>Arena name</th>
+      <th>Winning faction</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= match.date_time %></td>
+        <td><%= match.arena_name %></td>
+        <td><%= match.winning_faction %></td>
+        <td><%= link_to 'Show', match %></td>
+        <td><%= link_to 'Edit', edit_match_path(match) %></td>
+        <td><%= link_to 'Destroy', match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>
+			<ul><% match.scores.each do |score|
+					 if score.player_faction == match.winning_faction %>
+						<li><b><%= link_to Player.find(score.Player_id).name %>
+						<%= Player.find(score.Player_id).class_name %>-<%= Player.find(score.Player_id).spec_name %>
+						KB: <%= score.killing_blows %>
+						DMG: <%= score.damage_done %>
+						HEAL: <%= score.healing_done %>
+						ADJ: <%= score.ratings_adjustment %></b>
+						<% 
+							tga = MatchTalentGlyphSelection.find_by(Match_id: match.id, Player_id: score.Player_id)
+							if tga
+								tg = TalentGlyphSelection.find_by(tga.id)
+								if tg
+									tg.tal01 != "" ? tstring = tg.tal01 : tstring = ""
+									tg.tal02 != "" ? tstring = tstring + ", " + tg.tal02 : x=1
+									tg.tal03 != "" ? tstring = tstring + ", " + tg.tal03 :  x=1
+									tg.tal04 != "" ? tstring = tstring + ", " + tg.tal04 : x=1
+									tg.tal05 != "" ? tstring = tstring + ", " + tg.tal05 : x=1
+									tg.tal06 != "" ? tstring = tstring + ", " + tg.tal06 : x=1
+									tg.tal07 != "" ? tstring = tstring + ", " + tg.tal07 : x=1
+									tg.tal08 != "" ? tstring = tstring + ", " + tg.tal08 : x=1
+									
+									tg.gly01 != "" ? gstring = tg.gly01 : gstring = ""
+									tg.gly02 != "" ? gstring = gstring + ", " + tg.gly02 : x=1
+									tg.gly03 != "" ? gstring = gstring + ", " + tg.gly03 : x=1
+									tg.gly04 != "" ? gstring = gstring + ", " + tg.gly04 : x=1
+									tg.gly05 != "" ? gstring = gstring + ", " + tg.gly05 : x=1
+									tg.gly06 != "" ? gstring = gstring + ", " + tg.gly06 : x=1
+									tg.gly07 != "" ? gstring = gstring + ", " + tg.gly07 : x=1
+									tg.gly08 != "" ? gstring = gstring + ", " + tg.gly08 : x=1
+									tg.gly09 != "" ? gstring = gstring + ", " + tg.gly09 : x=1
+									tg.gly10 != "" ? gstring = gstring + ", " + tg.gly10 :		 x=1						
+								end
+							end
+						%>
+						<% if tg %>
+						<ul><li><font size="1"><%= tstring %></font></li><li><font size="1"><%= gstring %></font></li></ul></li>
+						<% end %>
+				<% else %>
+						<li><%= link_to Player.find(score.Player_id).name %>
+						<%= Player.find(score.Player_id).class_name %>-<%= Player.find(score.Player_id).spec_name %>
+						KB: <%= score.killing_blows %>
+						DMG: <%= score.damage_done %>
+						HEAL: <%= score.healing_done %>
+						ADJ: <%= score.ratings_adjustment %>
+						<% 
+							tga = MatchTalentGlyphSelection.find_by(Match_id: match.id, Player_id: score.Player_id)
+							if tga
+								tg = TalentGlyphSelection.find_by(tga.id)
+								if tg
+									tg.tal01 != "" ? tstring = tg.tal01 : tstring = ""
+									tg.tal02 != "" ? tstring = tstring + ", " + tg.tal02 : x=1
+									tg.tal03 != "" ? tstring = tstring + ", " + tg.tal03 :  x=1
+									tg.tal04 != "" ? tstring = tstring + ", " + tg.tal04 : x=1
+									tg.tal05 != "" ? tstring = tstring + ", " + tg.tal05 : x=1
+									tg.tal06 != "" ? tstring = tstring + ", " + tg.tal06 : x=1
+									tg.tal07 != "" ? tstring = tstring + ", " + tg.tal07 : x=1
+									tg.tal08 != "" ? tstring = tstring + ", " + tg.tal08 : x=1
+									
+									tg.gly01 != "" ? gstring = tg.gly01 : gstring = ""
+									tg.gly02 != "" ? gstring = gstring + ", " + tg.gly02 : x=1
+									tg.gly03 != "" ? gstring = gstring + ", " + tg.gly03 : x=1
+									tg.gly04 != "" ? gstring = gstring + ", " + tg.gly04 : x=1
+									tg.gly05 != "" ? gstring = gstring + ", " + tg.gly05 : x=1
+									tg.gly06 != "" ? gstring = gstring + ", " + tg.gly06 : x=1
+									tg.gly07 != "" ? gstring = gstring + ", " + tg.gly07 : x=1
+									tg.gly08 != "" ? gstring = gstring + ", " + tg.gly08 : x=1
+									tg.gly09 != "" ? gstring = gstring + ", " + tg.gly09 : x=1
+									tg.gly10 != "" ? gstring = gstring + ", " + tg.gly10 :		 x=1						
+								end
+							end
+						%>
+						<% if tg %>
+						<ul><li><font size="1"><%= tstring %></font></li><li><font size="1"><%= gstring %></font></li></ul></li>
+						<% end %>
+				<% end %>
+			<% end %></ul>
+		</td>
+	  </tr>
+    <% end %>  <!-- End for each match -->
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Match', new_match_path %>

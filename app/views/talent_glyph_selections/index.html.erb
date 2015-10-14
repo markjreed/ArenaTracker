@@ -1,0 +1,59 @@
+<h1>Listing talent_glyph_selections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tal01</th>
+      <th>Tal02</th>
+      <th>Tal03</th>
+      <th>Tal04</th>
+      <th>Tal05</th>
+      <th>Tal06</th>
+      <th>Tal07</th>
+      <th>Tal08</th>
+      <th>Gly01</th>
+      <th>Gly02</th>
+      <th>Gly03</th>
+      <th>Gly04</th>
+      <th>Gly05</th>
+      <th>Gly06</th>
+      <th>Gly07</th>
+      <th>Gly08</th>
+      <th>Gly09</th>
+      <th>Gly10</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @talent_glyph_selections.each do |talent_glyph_selection| %>
+      <tr>
+        <td><%= talent_glyph_selection.tal01 %></td>
+        <td><%= talent_glyph_selection.tal02 %></td>
+        <td><%= talent_glyph_selection.tal03 %></td>
+        <td><%= talent_glyph_selection.tal04 %></td>
+        <td><%= talent_glyph_selection.tal05 %></td>
+        <td><%= talent_glyph_selection.tal06 %></td>
+        <td><%= talent_glyph_selection.tal07 %></td>
+        <td><%= talent_glyph_selection.tal08 %></td>
+        <td><%= talent_glyph_selection.gly01 %></td>
+        <td><%= talent_glyph_selection.gly02 %></td>
+        <td><%= talent_glyph_selection.gly03 %></td>
+        <td><%= talent_glyph_selection.gly04 %></td>
+        <td><%= talent_glyph_selection.gly05 %></td>
+        <td><%= talent_glyph_selection.gly06 %></td>
+        <td><%= talent_glyph_selection.gly07 %></td>
+        <td><%= talent_glyph_selection.gly08 %></td>
+        <td><%= talent_glyph_selection.gly09 %></td>
+        <td><%= talent_glyph_selection.gly10 %></td>
+        <td><%= link_to 'Show', talent_glyph_selection %></td>
+        <td><%= link_to 'Edit', edit_talent_glyph_selection_path(talent_glyph_selection) %></td>
+        <td><%= link_to 'Destroy', talent_glyph_selection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Talent glyph selection', new_talent_glyph_selection_path %>

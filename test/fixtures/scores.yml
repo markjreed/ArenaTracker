@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Player_id: 
+  Match_id: 
+  player_faction: 1
+  killing_blows: 1
+  damage_done: 1
+  healing_done: 1
+  ratings_adjustment: 1
+
+two:
+  Player_id: 
+  Match_id: 
+  player_faction: 1
+  killing_blows: 1
+  damage_done: 1
+  healing_done: 1
+  ratings_adjustment: 1

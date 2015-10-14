@@ -1,0 +1,89 @@
+<%= form_for(@talent_glyph_selection) do |f| %>
+  <% if @talent_glyph_selection.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@talent_glyph_selection.errors.count, "error") %> prohibited this talent_glyph_selection from being saved:</h2>
+
+      <ul>
+      <% @talent_glyph_selection.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :tal01 %><br>
+    <%= f.text_field :tal01 %>
+  </div>
+  <div class="field">
+    <%= f.label :tal02 %><br>
+    <%= f.text_field :tal02 %>
+  </div>
+  <div class="field">
+    <%= f.label :tal03 %><br>
+    <%= f.text_field :tal03 %>
+  </div>
+  <div class="field">
+    <%= f.label :tal04 %><br>
+    <%= f.text_field :tal04 %>
+  </div>
+  <div class="field">
+    <%= f.label :tal05 %><br>
+    <%= f.text_field :tal05 %>
+  </div>
+  <div class="field">
+    <%= f.label :tal06 %><br>
+    <%= f.text_field :tal06 %>
+  </div>
+  <div class="field">
+    <%= f.label :tal07 %><br>
+    <%= f.text_field :tal07 %>
+  </div>
+  <div class="field">
+    <%= f.label :tal08 %><br>
+    <%= f.text_field :tal08 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly01 %><br>
+    <%= f.text_field :gly01 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly02 %><br>
+    <%= f.text_field :gly02 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly03 %><br>
+    <%= f.text_field :gly03 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly04 %><br>
+    <%= f.text_field :gly04 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly05 %><br>
+    <%= f.text_field :gly05 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly06 %><br>
+    <%= f.text_field :gly06 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly07 %><br>
+    <%= f.text_field :gly07 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly08 %><br>
+    <%= f.text_field :gly08 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly09 %><br>
+    <%= f.text_field :gly09 %>
+  </div>
+  <div class="field">
+    <%= f.label :gly10 %><br>
+    <%= f.text_field :gly10 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

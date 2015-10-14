@@ -1,0 +1,65 @@
+<h1>Opponent Statistics: <b><%= @p_name %></b></h1>
+
+<select name="player_id">
+      <%= @players.each do |player| %>
+        <option value="<%= player.id %>"><%= player.name %></option>
+      <% end %>
+</select>
+
+<%= button_to "Filter by", new_admin_course_path, :id => "open-contacts-dialog-btn",
+      :class => "inbox-sf-add-btn tip", :method => :get %>
+
+<h2>vs. Single Spec</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Spec</th>
+      <th>Wins</th>
+	  <th>Win %</th>
+	  <th>Losses</th>      
+	  <th>Loss %</th>
+	  <th>Total fights with at least one of this spec</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @records_by_spec.each do |spec_rec| %>
+      <tr>
+		<td><%= spec_rec[1][:spec] %></td>		
+		<td align="right"><%= spec_rec[1][:wins] %></td>		
+		<td align="right"><%= spec_rec[1][:winpct] %>%</td>
+		<td align="right"><%= spec_rec[1][:losses] %></td>					
+		<td align="right"><%= spec_rec[1][:losspct] %>%</td>
+		<td align="right"><%= spec_rec[1][:total] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>vs. Teams</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Team</th>
+      <th>Wins</th>
+	  <th>Win %</th>
+	  <th>Losses</th>      
+	  <th>Loss %</th>
+	  <th>Total fights</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @records_by_team.each do |spec_rec| %>
+      <tr>
+		<td><%= spec_rec[1][:team] %></td>		
+		<td align="right"><%= spec_rec[1][:wins] %></td>		
+		<td align="right"><%= spec_rec[1][:winpct] %>%</td>
+		<td align="right"><%= spec_rec[1][:losses] %></td>					
+		<td align="right"><%= spec_rec[1][:losspct] %>%</td>
+		<td align="right"><%= spec_rec[1][:total] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date time:</strong>
+  <%= @match.date_time %>
+</p>
+
+<p>
+  <strong>Arena name:</strong>
+  <%= @match.arena_name %>
+</p>
+
+<p>
+  <strong>Winning faction:</strong>
+  <%= @match.winning_faction %>
+</p>
+
+<%= link_to 'Edit', edit_match_path(@match) %> |
+<%= link_to 'Back', matches_path %>

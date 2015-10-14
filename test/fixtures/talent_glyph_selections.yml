@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tal01: MyString
+  tal02: MyString
+  tal03: MyString
+  tal04: MyString
+  tal05: MyString
+  tal06: MyString
+  tal07: MyString
+  tal08: MyString
+  gly01: MyString
+  gly02: MyString
+  gly03: MyString
+  gly04: MyString
+  gly05: MyString
+  gly06: MyString
+  gly07: MyString
+  gly08: MyString
+  gly09: MyString
+  gly10: MyString
+
+two:
+  tal01: MyString
+  tal02: MyString
+  tal03: MyString
+  tal04: MyString
+  tal05: MyString
+  tal06: MyString
+  tal07: MyString
+  tal08: MyString
+  gly01: MyString
+  gly02: MyString
+  gly03: MyString
+  gly04: MyString
+  gly05: MyString
+  gly06: MyString
+  gly07: MyString
+  gly08: MyString
+  gly09: MyString
+  gly10: MyString

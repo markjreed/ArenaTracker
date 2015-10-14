@@ -1,0 +1,39 @@
+<h1>Listing scores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Match</th>
+	  <th>Arena</th>
+      <th>Faction</th>
+      <th>Kill blows</th>
+      <th>Damage</th>
+      <th>Healing</th>
+      <th>Ratings change</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @scores.each do |score| %>
+      <tr>
+        <td><%= link_to Player.find(score.Player_id).name %></td>		
+		<td><%= link_to Match.find(score.Match_id).id %></td>
+        <td><%= Match.find(score.Match_id).arena_name %></td>
+        <td><%= score.player_faction %></td>
+        <td><%= score.killing_blows %></td>
+        <td><%= score.damage_done %></td>
+        <td><%= score.healing_done %></td>
+        <td><%= score.ratings_adjustment %></td>
+        <td><%= link_to 'Show', score %></td>
+        <td><%= link_to 'Edit', edit_score_path(score) %></td>
+        <td><%= link_to 'Destroy', score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Score', new_score_path %>

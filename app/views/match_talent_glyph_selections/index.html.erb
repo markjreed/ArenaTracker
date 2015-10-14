@@ -1,0 +1,29 @@
+<h1>Listing match_talent_glyph_selections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Match</th>
+      <th>Talentglyphselection</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @match_talent_glyph_selections.each do |match_talent_glyph_selection| %>
+      <tr>
+        <td><%= match_talent_glyph_selection.Player %></td>
+        <td><%= match_talent_glyph_selection.Match %></td>
+        <td><%= match_talent_glyph_selection.TalentGlyphSelection %></td>
+        <td><%= link_to 'Show', match_talent_glyph_selection %></td>
+        <td><%= link_to 'Edit', edit_match_talent_glyph_selection_path(match_talent_glyph_selection) %></td>
+        <td><%= link_to 'Destroy', match_talent_glyph_selection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Match talent glyph selection', new_match_talent_glyph_selection_path %>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Raw battle data:</strong>
+  <%= @raw_battle.raw_battle_data %>
+</p>
+
+<p>
+  <strong>Parse status:</strong>
+  <%= @raw_battle.parse_status %>
+</p>
+
+<p>
+  <strong>Status message:</strong>
+  <%= @raw_battle.status_message %>
+</p>
+
+<%= link_to 'Edit', edit_raw_battle_path(@raw_battle) %> |
+<%= link_to 'Back', raw_battles_path %>
