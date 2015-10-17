@@ -1,25 +1,20 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-development:
-  adapter: sqlite3
-  database: db/development.sqlite3
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
-  timeout: 5000
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+development:
+  <<: *default
+  database: arena_tracker_dev
+
 test:
-  adapter: sqlite3
-  database: db/test.sqlite3
-  pool: 5
-  timeout: 5000
+  <<: *default
+  database: arena_tracker_test
 
 production:
-  adapter: postgres
-  database: postgres://xfhnxfeylaszqe:TsSsc95vCoJ5DeeCmi0YefJ-Qh@ec2-54-204-15-48.compute-1.amazonaws.com:5432/d9qb18dnn0m10f
-  pool: 5
-  timeout: 5000
+  <<: *default
+  database: arena_tracker_prod
+  username: arena_traker
+  password: <%= ENV['ARENA_TRACKER_DB_PASSWORD'] %>
