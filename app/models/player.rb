@@ -1,7 +1,7 @@
 class Player < ActiveRecord::Base
 
-  # has_many :matches - not really, the scores have matches.
   has_many :scores
+  has_many :matches, through: :scores
   
   filterrific(
     default_filter_params: { sorted_by: 'name_asc' },

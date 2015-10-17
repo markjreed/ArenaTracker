@@ -1,13 +1,10 @@
 class ReportsController < ApplicationController
   
-  def create
-    @rc = ReportsController.new(params[:player])
-  end
-=begin    
+
+   
   def index
     @passed_name = params[:player] ? @passed_name = params[:player] : ""
   end
-=end
     
   def vsspec
     logger = Logger.new('test.log')
@@ -23,21 +20,16 @@ class ReportsController < ApplicationController
     @players = Player.all.order(:name)
 
     
-    # Get the player we care about (one only for now)
-    # @p_name = @passed_name[:player] == "" ? "Furiousbess" : @passed_name[:player] 
-    # @p_name = params[:player] ?  params[:player] : "Furiousbess"
+
     
-    # @p_name = "Furiousbess"
-    @p_name = "Asaemon"
-    
-    player = Player.find_by(name: @p_name)
+    @player = Player.find_by(name: params[:player])
     b_won = 0
     
     start_time = DateTime.new(2013, 10, 16, 18, 0)
     end_time = DateTime.new(2019, 10, 16, 23, 59)
     
     # Get all the scores for that player
-    Score.where(Player_id: player.id).find_each do |my_score|      
+    Score.where(Player_id: @player.id).find_each do |my_score|      
       logger.debug "MY SCORE: " + my_score.as_json.to_s
       # Grab out the match that matches =)
       match = Match.find_by(id: my_score.Match_id)
@@ -62,12 +54,12 @@ class ReportsController < ApplicationController
           
           # If the score isn't OUR score, look at the specs
           logger.debug "player id from score: " + single_match_score.Player_id.to_s
-          logger.debug "my player id: " + player.id.to_s
+          logger.debug "my player id: " + @player.id.to_s
           logger.debug "my player id from score: " + my_score.Player_id.to_s
           logger.debug "my faction: " + my_score.player_faction.to_s
           logger.debug "faction from score: " + single_match_score.player_faction.to_s
           # Make sure the score seen isn't yours or a teammate's 
-          if (single_match_score.Player_id != player.id) and (my_score.player_faction != single_match_score.player_faction)
+          if (single_match_score.Player_id != @player.id) and (my_score.player_faction != single_match_score.player_faction)
             logger.debug "RECORD"
             # Make the spec name       
             opposing_spec = Player.find_by(id: single_match_score.Player_id).class_name + "-" + Player.find_by(id: single_match_score.Player_id).spec_name          
