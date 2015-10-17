@@ -1,7 +1,33 @@
 <h1>Listing players</h1>
 
-<%= render( partial: 'players/list', locals: { players: @players } ) %>
+<%# filterrific filter form %>
+<%= form_for_filterrific @filterrific do |f| %>
 
+ <%# :with_class_name filter: Limit to a specific class %>
+ <div>
+  Class 
+  <%= f.select(:with_class_name, @filterrific.select_options[:with_class_name],
+               { include_blank: '- Any -' }) %>
+ </div>
+
+ <%# :sorted_by filter: order the results how you like %>
+ <div>
+   Sorted by
+    <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by]) %>
+ </div>
+
+ <%# Click to reset filters to default %>
+ <div>
+  <%= link_to 'Reset filters', reset_filterrific_url %>
+ </div>
+
+ <%# Include the javascript glue to make it work %>
+ <%= render_filterrific_spinner %>
+<% end %>
+
+<%# actual results go here %>
+<%= render( partial: 'players/list', locals: { players: @players } ) %>
+ 
 <div>
 <%= link_to 'New Player', new_player_path %>
 </div>
