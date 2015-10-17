@@ -1,31 +1,33 @@
 <h1>Listing players</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Server name</th>
-      <th>Class name</th>
-      <th>Spec name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<%# filterrific filter form %>
+<%= form_for_filterrific @filterrific do |f| %>
 
-  <tbody>
-    <% @players.each do |player| %>
-      <tr>
-        <td><%= player.name %></td>
-        <td><%= player.server_name %></td>
-        <td><%= player.class_name %></td>
-        <td><%= player.spec_name %></td>
-        <td><%= link_to 'Show', player %></td>
-        <td><%= link_to 'Edit', edit_player_path(player) %></td>
-        <td><%= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+ <%# :with_class_name filter: Limit to a specific class %>
+ <div>
+  Class 
+  <%= f.select(:with_class_name, @filterrific.select_options[:with_class_name],
+               { include_blank: '- Any -' }) %>
+ </div>
 
-<br>
+ <%# :sorted_by filter: order the results how you like %>
+ <div>
+   Sorted by
+    <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by]) %>
+ </div>
 
+ <%# Click to reset filters to default %>
+ <div>
+  <%= link_to 'Reset filters', reset_filterrific_url %>
+ </div>
+
+ <%# Include the javascript glue to make it work %>
+ <%= render_filterrific_spinner %>
+<% end %>
+
+<%# actual results go here %>
+<%= render( partial: 'players/list', locals: { players: @players } ) %>
+ 
+<div>
 <%= link_to 'New Player', new_player_path %>
+</div>
