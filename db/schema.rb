@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20151017131756) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "match_talent_glyph_selections", force: true do |t|
     t.integer  "Player_id"
     t.integer  "Match_id"
@@ -21,9 +24,9 @@ ActiveRecord::Schema.define(version: 20151017131756) do
     t.datetime "updated_at"
   end
 
-  add_index "match_talent_glyph_selections", ["Match_id"], name: "index_match_talent_glyph_selections_on_Match_id"
-  add_index "match_talent_glyph_selections", ["Player_id"], name: "index_match_talent_glyph_selections_on_Player_id"
-  add_index "match_talent_glyph_selections", ["TalentGlyphSelection_id"], name: "index_match_talent_glyph_selections_on_TalentGlyphSelection_id"
+  add_index "match_talent_glyph_selections", ["Match_id"], name: "index_match_talent_glyph_selections_on_Match_id", using: :btree
+  add_index "match_talent_glyph_selections", ["Player_id"], name: "index_match_talent_glyph_selections_on_Player_id", using: :btree
+  add_index "match_talent_glyph_selections", ["TalentGlyphSelection_id"], name: "index_match_talent_glyph_selections_on_TalentGlyphSelection_id", using: :btree
 
   create_table "matches", force: true do |t|
     t.string   "date_time"
@@ -43,7 +46,7 @@ ActiveRecord::Schema.define(version: 20151017131756) do
   end
 
   create_table "raw_battles", force: true do |t|
-    t.string   "raw_battle_data"
+    t.text     "raw_battle_data"
     t.string   "parse_status"
     t.string   "status_message"
     t.datetime "created_at"
