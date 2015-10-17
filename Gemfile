@@ -40,3 +40,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 
 gem 'filterrific'
 gem 'rails_12factor', group: :production
+gem 'puma'
