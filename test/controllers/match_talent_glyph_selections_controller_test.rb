@@ -18,7 +18,7 @@ class MatchTalentGlyphSelectionsControllerTest < ActionController::TestCase
 
   test "should create match_talent_glyph_selection" do
     assert_difference('MatchTalentGlyphSelection.count') do
-      post :create, match_talent_glyph_selection: { Match_id: @match_talent_glyph_selection.Match_id, Player_id: @match_talent_glyph_selection.Player_id, TalentGlyphSelection_id: @match_talent_glyph_selection.TalentGlyphSelection_id }
+      post :create, match_talent_glyph_selection: { Match_id: @match_talent_glyph_selection.Match_id, Player_id: @match_talent_glyph_selection.Player_id, talent_glyph_selection_id: @match_talent_glyph_selection.talent_glyph_selection_id }
     end
 
     assert_redirected_to match_talent_glyph_selection_path(assigns(:match_talent_glyph_selection))
@@ -35,7 +35,7 @@ class MatchTalentGlyphSelectionsControllerTest < ActionController::TestCase
   end
 
   test "should update match_talent_glyph_selection" do
-    patch :update, id: @match_talent_glyph_selection, match_talent_glyph_selection: { Match_id: @match_talent_glyph_selection.Match_id, Player_id: @match_talent_glyph_selection.Player_id, TalentGlyphSelection_id: @match_talent_glyph_selection.TalentGlyphSelection_id }
+    patch :update, id: @match_talent_glyph_selection, match_talent_glyph_selection: { Match_id: @match_talent_glyph_selection.Match_id, Player_id: @match_talent_glyph_selection.Player_id, talent_glyph_selection_id: @match_talent_glyph_selection.talent_glyph_selection_id }
     assert_redirected_to match_talent_glyph_selection_path(assigns(:match_talent_glyph_selection))
   end
 

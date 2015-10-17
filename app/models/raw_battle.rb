@@ -190,7 +190,7 @@ class RawBattle < ActiveRecord::Base
     MatchTalentGlyphSelection.create do |a|      
       a.player_id = logging_player.id
       a.match_id = match.id
-      a.TalentGlyphSelection_id = tals_and_glyphs.id
+      a.talent_glyph_selection_id = tals_and_glyphs.id
     end    
   end # after_save
 end # RawBattle
