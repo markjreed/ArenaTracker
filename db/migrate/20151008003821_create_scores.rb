@@ -1,8 +1,8 @@
 class CreateScores < ActiveRecord::Migration
   def change
     create_table :scores do |t|
-      t.belongs_to :Player, index: true
-      t.belongs_to :Match, index: true
+      t.belongs_to :player, index: true
+      t.belongs_to :match, index: true
       t.integer :player_faction
       t.integer :killing_blows
       t.integer :damage_done

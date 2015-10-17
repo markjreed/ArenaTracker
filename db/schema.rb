@@ -17,16 +17,16 @@ ActiveRecord::Schema.define(version: 20151017131756) do
   enable_extension "plpgsql"
 
   create_table "match_talent_glyph_selections", force: true do |t|
-    t.integer  "Player_id"
-    t.integer  "Match_id"
-    t.integer  "TalentGlyphSelection_id"
+    t.integer  "player_id"
+    t.integer  "match_id"
+    t.integer  "talent_glyph_selection_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "match_talent_glyph_selections", ["Match_id"], name: "index_match_talent_glyph_selections_on_Match_id", using: :btree
-  add_index "match_talent_glyph_selections", ["Player_id"], name: "index_match_talent_glyph_selections_on_Player_id", using: :btree
-  add_index "match_talent_glyph_selections", ["TalentGlyphSelection_id"], name: "index_match_talent_glyph_selections_on_TalentGlyphSelection_id", using: :btree
+  add_index "match_talent_glyph_selections", ["match_id"], name: "index_match_talent_glyph_selections_on_match_id", using: :btree
+  add_index "match_talent_glyph_selections", ["player_id"], name: "index_match_talent_glyph_selections_on_player_id", using: :btree
+  add_index "match_talent_glyph_selections", ["talent_glyph_selection_id"], name: "index_match_talent_glyph_selection_on_talent_glyph_selection_id", using: :btree
 
   create_table "matches", force: true do |t|
     t.string   "date_time"
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20151017131756) do
     t.datetime "updated_at"
   end
 
-  add_index "scores", ["match_id"], name: "index_scores_on_match_id"
-  add_index "scores", ["player_id"], name: "index_scores_on_player_id"
+  add_index "scores", ["match_id"], name: "index_scores_on_match_id", using: :btree
+  add_index "scores", ["player_id"], name: "index_scores_on_player_id", using: :btree
 
   create_table "talent_glyph_selections", force: true do |t|
     t.string   "tal01"

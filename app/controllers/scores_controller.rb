@@ -70,6 +70,6 @@ class ScoresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def score_params
-      params.require(:score).permit(:Player_id, :Match_id, :player_faction, :killing_blows, :damage_done, :healing_done, :ratings_adjustment)
+      params.require(:score).permit(:player_id, :match_id, :player_faction, :killing_blows, :damage_done, :healing_done, :ratings_adjustment)
     end
 end
