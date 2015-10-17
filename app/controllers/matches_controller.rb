@@ -1,3 +1,5 @@
+
+
 class MatchesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_match, only: [:show, :edit, :update, :destroy]
@@ -5,7 +7,24 @@ class MatchesController < ApplicationController
   # GET /matches
   # GET /matches.json
   def index
-    @matches = Match.all
+    @filterrific = Filterrific.new(Match, params[:filterrific])
+    @filterrific.select_options = {
+      sorted_by: Match.options_for_sorted_by,
+      with_player: Match.options_for_select
+    }
+    @matches = Match.filterrific_find(@filterrific).page(params[:page]).with_players
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+  
+  def reset_filterrific
+    # Clear session persistence
+    session[:filterrific_players] = nil
+    # Redirect back to the index action for default filter settings.
+    redirect_to action: :index
   end
 
   # GET /matches/1

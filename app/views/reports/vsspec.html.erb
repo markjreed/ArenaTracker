@@ -1,13 +1,17 @@
 <h1>Opponent Statistics: <b><%= @p_name %></b></h1>
 
+Total matches processed for <%= @p_name %>: <%= @total_matches %><p>
+Total spec stat updates: <%= @total_single_spec_stats %><p>
+Total teams seen: <%= @total_teams_seen %>
+<p>
+
+<% if false %>
 <select name="player_id">
       <%= @players.each do |player| %>
         <option value="<%= player.id %>"><%= player.name %></option>
       <% end %>
 </select>
-
-<%= button_to "Filter by", new_admin_course_path, :id => "open-contacts-dialog-btn",
-      :class => "inbox-sf-add-btn tip", :method => :get %>
+<% end %>
 
 <h2>vs. Single Spec</h2>
 

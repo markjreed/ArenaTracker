@@ -1,23 +1,5 @@
 <h1>Listing matches</h1>
 
-
-<% if false %>
-<%= form_for @filterrific do |f| %>
-<div>
-  <h3>Select Player:</h3>
-  <div class="row">
-    <% @filterrific.select_options[:with_player].each do |c| %>
-      <div class="col-md-4">
-        <%= check_box_tag("filterrific[with_player][]",p) %>
-        <%=h p %>
-      </div>
-    <% end %>
-  </div>
-</div>
-<% end %>
-<% end %>
-
-
 <table>
   <thead>
     <tr>

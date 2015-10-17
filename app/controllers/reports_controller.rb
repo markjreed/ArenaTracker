@@ -14,6 +14,9 @@ class ReportsController < ApplicationController
     # Get our hash ready
     @records_by_spec = { }
     @records_by_team = { }
+    @total_matches = 0 # total matches for the given player.
+    @total_single_spec_stats = 0 # should be double the number of matches minus one for each match with double specs
+    @total_teams_seen = 0 # should be the number of matches seen.
     
     @players = Player.all.order(:name)
 
@@ -29,6 +32,7 @@ class ReportsController < ApplicationController
     
     # Get all the scores for that player
     Score.where(Player_id: player.id).find_each do |my_score|
+      @total_matches += 1
       logger.debug "MY SCORE: " + my_score.as_json.to_s
       # Grab out the match that matches =)
       match = Match.find_by(id: my_score.Match_id)
@@ -65,6 +69,7 @@ class ReportsController < ApplicationController
             rec = @records_by_spec[opposing_spec] ||= { spec: opposing_spec, wins: 0, losses: 0 }            
             # update the appropriate field
             rec[  b_won ? :wins : :losses ] += 1
+            @total_single_spec_stats += 1
           end # We don't want to add two losses or wins against a team of the same specs.
           
           #### Team spec building:
@@ -78,7 +83,8 @@ class ReportsController < ApplicationController
       opposing_team = specs_seen.sort.to_s
       rec = @records_by_team[opposing_team] ||= { team: opposing_team, wins: 0, losses: 0 }            
       # update the appropriate field
-      rec[  b_won ? :wins : :losses ] += 1      
+      rec[  b_won ? :wins : :losses ] += 1   
+      @total_teams_seen += 1
     end # end - for all scores matching the player-of-interest id
     
     # Now sort the hash and add percentages . . . . 

@@ -1,5 +1,22 @@
 <h1>Listing players</h1>
 
+<%# app/views/players/index.html.erb %>
+<%= form_for_filterrific @filterrific do |f| %>
+<div>
+  <h3>Select Class:</h3>
+  <div class="row">
+    <% @filterrific.select_options[:with_class_name].each do |c| %>
+      <div class="col-md-4">
+        <%= check_box_tag("filterrific[with_class_name][]",c) %>
+        <%=h c %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+
+
 <table>
   <thead>
     <tr>
