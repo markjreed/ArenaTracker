@@ -3,10 +3,17 @@
 <%# filterrific filter form %>
 <%= form_for_filterrific @filterrific do |f| %>
 
+
  <%# :with_class_name filter: Limit to a specific class %>
  <div>
-  Class 
+  Class
   <%= f.select(:with_class_name, @filterrific.select_options[:with_class_name],
+               { include_blank: '- Any -' }) %>
+ </div>
+
+ <div>
+  Spec
+  <%= f.select(:with_spec_name, @filterrific.select_options[:with_spec_name],
                { include_blank: '- Any -' }) %>
  </div>
 
@@ -27,7 +34,7 @@
 
 <%# actual results go here %>
 <%= render( partial: 'players/list', locals: { players: @players } ) %>
- 
+
 <div>
 <%= link_to 'New Player', new_player_path %>
 </div>

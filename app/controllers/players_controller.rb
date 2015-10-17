@@ -4,17 +4,19 @@ class PlayersController < ApplicationController
 
   # GET /players
   # GET /players.json
-  def index
-    @filterrific = 
+
+  def index     
+    @filterrific =
       initialize_filterrific(
-        Player, 
+        Player,
         params[:filterrific],
         select_options: {
-          sorted_by: %w{name_asc name_desc 
+          sorted_by: %w{name_asc name_desc
                         server_name_asc server_name_desc
                         class_name_asc class_name_desc
                         spec_name_asc spec_name_desc},
-          with_class_name: Player.all.map(&:class_name).uniq
+          with_class_name: Player.all.map(&:class_name).uniq,
+          with_spec_name: Player.all.map(&:spec_name).uniq,
         }
     ) or return
     @players = @filterrific.find

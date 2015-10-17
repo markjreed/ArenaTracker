@@ -25,7 +25,7 @@ class RawBattle < ActiveRecord::Base
     # Create a match
     #####################################################
     match = Match.create do |m|
-      m.date_time = self.raw_battle_data[0..18]+":00"
+      m.date_time = self.raw_battle_data[0..18]
       
       if result = /.*ZONE:([^,]*)/.match(self.raw_battle_data)
         m.arena_name = result.captures[0]
