@@ -5,7 +5,10 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all
+    @filterrific = 
+      initialize_filterrific(Player, 
+                             params[:filterrific]) or return
+    @players = @filterrific.find
   end
 
   # GET /players/1
