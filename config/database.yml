@@ -4,11 +4,11 @@ default: &default
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
+  password: <%= ENV['ARENA_TRACKER_DB_PASSWORD'] %>
 
 development:
   <<: *default
   database: arena_tracker_dev
-  password: <%= ENV['ARENA_TRACKER_DB_PASSWORD'] %>
 
 test:
   <<: *default
@@ -18,4 +18,3 @@ production:
   <<: *default
   database: arena_tracker_prod
   username: arena_traker
-  password: <%= ENV['ARENA_TRACKER_DB_PASSWORD'] %>
