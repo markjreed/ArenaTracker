@@ -5,7 +5,16 @@ class MatchesController < ApplicationController
   # GET /matches
   # GET /matches.json
   def index
-    @matches = Match.all
+    @filterrific =
+      initialize_filterrific(
+        Match,
+        params[:filterrific],
+        select_options: {
+          sorted_by: %w{date_time_desc},
+          with_player: Player.all.map(&:player).uniq,          
+        }
+    ) or return
+    @matches = @filterrific.find
   end
 
   # GET /matches/1

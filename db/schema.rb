@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151008003836) do
+ActiveRecord::Schema.define(version: 20151017131756) do
 
   create_table "match_talent_glyph_selections", force: true do |t|
     t.integer  "Player_id"
@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20151008003836) do
   end
 
   create_table "scores", force: true do |t|
-    t.integer  "Player_id"
-    t.integer  "Match_id"
+    t.integer  "player_id"
+    t.integer  "match_id"
     t.integer  "player_faction"
     t.integer  "killing_blows"
     t.integer  "damage_done"
@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(version: 20151008003836) do
     t.datetime "updated_at"
   end
 
-  add_index "scores", ["Match_id"], name: "index_scores_on_Match_id"
-  add_index "scores", ["Player_id"], name: "index_scores_on_Player_id"
+  add_index "scores", ["match_id"], name: "index_scores_on_match_id"
+  add_index "scores", ["player_id"], name: "index_scores_on_player_id"
 
   create_table "talent_glyph_selections", force: true do |t|
     t.string   "tal01"

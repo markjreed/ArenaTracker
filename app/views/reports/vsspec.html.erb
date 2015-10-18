@@ -1,15 +1,23 @@
-<h1>Opponent Statistics: <b><%= @p_name %></b></h1>
+<h1>Opponent Statistics: <b><%= @player.name %></b></h1>
 
+Total matches processed for <%= @player.name %>: <%= @total_matches %><p>
+Total spec stat updates: <%= @total_single_spec_stats %><p>
+Total teams seen: <%= @total_teams_seen %><p>
+Overall wins: <%= @total_wins %><p>
+Overall losses: <%= @total_losses %><p>
+
+<p>
+
+<% if false %>
 <select name="player_id">
       <%= @players.each do |player| %>
         <option value="<%= player.id %>"><%= player.name %></option>
       <% end %>
 </select>
-
-<%= button_to "Filter by", new_admin_course_path, :id => "open-contacts-dialog-btn",
-      :class => "inbox-sf-add-btn tip", :method => :get %>
+<% end %>
 
 <h2>vs. Single Spec</h2>
+Tally of wins/losses for all matches containing at least one of a particular spec.  A match against a same-spec pair will only be tallied once.
 
 <table>
   <thead>
@@ -18,8 +26,9 @@
       <th>Wins</th>
 	  <th>Win %</th>
 	  <th>Losses</th>      
-	  <th>Loss %</th>
-	  <th>Total fights with at least one of this spec</th>
+	  <th>Loss %</th>	  
+	  <th>Total fights</th>
+	  <th>Match IDs</th>
     </tr>
   </thead>
   <tbody>
@@ -31,6 +40,7 @@
 		<td align="right"><%= spec_rec[1][:losses] %></td>					
 		<td align="right"><%= spec_rec[1][:losspct] %>%</td>
 		<td align="right"><%= spec_rec[1][:total] %></td>
+		<td align="left"><%= spec_rec[1][:matches].map(&:inspect).join(', ') %></td>
       </tr>
     <% end %>
   </tbody>

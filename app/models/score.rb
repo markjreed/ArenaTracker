@@ -1,4 +1,4 @@
 class Score < ActiveRecord::Base
-  belongs_to :Player
-  belongs_to :Match
+  belongs_to :player
+  belongs_to :match
 end
