@@ -1,0 +1,16 @@
+<h1>Reports</h1>
+
+<%= form_tag '', remote: true, id: 'report_parameters', style: 'position: relative' do %>
+  <%= label_tag(:report_type, "Report Type:") %>
+  <%= select_tag(:report_type, 
+    options_for_select([['Vs Spec', 'vsspec']])) %>
+  <%= label_tag(:report_type, "For Player:") %>
+  <%= select_tag(:player_id, 
+                 options_from_collection_for_select(Player.all.order('name'), :id, :name)) %>
+<%= render( partial: 'reports/datefield', locals: { input_name: 'from_date', input_label: "From: "} ) %>
+<%= render( partial: 'reports/datefield', locals: { input_name: 'to_date', input_label: "To: "} ) %>
+
+  <%= button_tag('Run Report') %>
+<% end %>
+  
+<div id='report'></div>

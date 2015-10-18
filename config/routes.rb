@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  get 'reports/vsspec'
+  get '/reports', to: 'reports#index'
+  post '/reports', to: 'reports#run'
+
+  namespace :reports do 
+     get '/vsspec', to: 'vspec#show'
+  end
 
   resources :match_talent_glyph_selections
 
