@@ -42,9 +42,7 @@ gem 'filterrific'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'momentjs-rails'
-gem 'twitter-bootstrap-rails'
+gem 'bootstrap-sass'
 gem 'bootstrap3-datetimepicker-rails'
 gem 'simple_form'
-gem 'therubyracer'
-gem 'less-rails'
 
