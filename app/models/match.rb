@@ -1,5 +1,6 @@
 class Match < ActiveRecord::Base
   has_many :scores
+  has_many :players, through: :scores
   
   filterrific(
     default_filter_params: { sorted_by: 'date_time_desc' },
