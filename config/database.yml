@@ -8,6 +8,7 @@ default: &default
 development:
   <<: *default
   database: arena_tracker_dev
+  password: <%= ENV['ARENA_TRACKER_DB_PASSWORD'] %>
 
 test:
   <<: *default
