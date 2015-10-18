@@ -18,9 +18,9 @@
   <tbody>
     <% @scores.each do |score| %>
       <tr>
-        <td><%= link_to Player.find(score.Player_id).name %></td>		
-		<td><%= link_to Match.find(score.Match_id).id %></td>
-        <td><%= Match.find(score.Match_id).arena_name %></td>
+        <td><%= link_to Player.find(score.player_id).name %></td>		
+		<td><%= link_to Match.find(score.match_id).id %></td>
+        <td><%= Match.find(score.match_id).arena_name %></td>
         <td><%= score.player_faction %></td>
         <td><%= score.killing_blows %></td>
         <td><%= score.damage_done %></td>

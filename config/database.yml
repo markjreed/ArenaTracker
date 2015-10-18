@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
+
+development:
+  <<: *default
+  database: arena_tracker_dev
+
+test:
+  <<: *default
+  database: arena_tracker_test
+
+production:
+  <<: *default
+  database: arena_tracker_prod
+  username: arena_traker
+  password: <%= ENV['ARENA_TRACKER_DB_PASSWORD'] %>

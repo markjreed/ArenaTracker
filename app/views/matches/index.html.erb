@@ -25,14 +25,14 @@
 		<td>
 			<ul><% match.scores.each do |score|
 					 if score.player_faction == match.winning_faction %>
-						<li><b><%= link_to Player.find(score.Player_id).name %>
-						<%= Player.find(score.Player_id).class_name %>-<%= Player.find(score.Player_id).spec_name %>
+						<li><b><%= link_to Player.find(score.player_id).name %>
+						<%= Player.find(score.player_id).class_name %>-<%= Player.find(score.player_id).spec_name %>
 						KB: <%= score.killing_blows %>
 						DMG: <%= score.damage_done %>
 						HEAL: <%= score.healing_done %>
 						ADJ: <%= score.ratings_adjustment %></b>
 						<% 
-							tga = MatchTalentGlyphSelection.find_by(Match_id: match.id, Player_id: score.Player_id)
+							tga = MatchTalentGlyphSelection.find_by(match_id: match.id, player_id: score.player_id)
 							if tga
 								tg = TalentGlyphSelection.find_by(tga.id)
 								if tg
@@ -62,14 +62,14 @@
 						<ul><li><font size="1"><%= tstring %></font></li><li><font size="1"><%= gstring %></font></li></ul></li>
 						<% end %>
 				<% else %>
-						<li><%= link_to Player.find(score.Player_id).name %>
-						<%= Player.find(score.Player_id).class_name %>-<%= Player.find(score.Player_id).spec_name %>
+						<li><%= link_to Player.find(score.player_id).name %>
+						<%= Player.find(score.player_id).class_name %>-<%= Player.find(score.player_id).spec_name %>
 						KB: <%= score.killing_blows %>
 						DMG: <%= score.damage_done %>
 						HEAL: <%= score.healing_done %>
 						ADJ: <%= score.ratings_adjustment %>
 						<% 
-							tga = MatchTalentGlyphSelection.find_by(Match_id: match.id, Player_id: score.Player_id)
+							tga = MatchTalentGlyphSelection.find_by(match_id: match.id, player_id: score.player_id)
 							if tga
 								tg = TalentGlyphSelection.find_by(tga.id)
 								if tg

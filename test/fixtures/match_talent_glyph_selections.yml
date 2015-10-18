@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  Player_id: 
-  Match_id: 
-  TalentGlyphSelection_id: 
+  player_id: 
+  match_id: 
+  talent_glyph_selection_id: 
 
 two:
-  Player_id: 
-  Match_id: 
-  TalentGlyphSelection_id: 
+  player_id: 
+  match_id: 
+  talent_glyph_selection_id: 

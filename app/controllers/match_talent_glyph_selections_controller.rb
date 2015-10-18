@@ -70,6 +70,6 @@ class MatchTalentGlyphSelectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def match_talent_glyph_selection_params
-      params.require(:match_talent_glyph_selection).permit(:Player_id, :Match_id, :TalentGlyphSelection_id)
+      params.require(:match_talent_glyph_selection).permit(:player_id, :match_id, :talent_glyph_selection_id)
     end
 end

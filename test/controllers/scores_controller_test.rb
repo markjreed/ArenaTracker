@@ -18,7 +18,7 @@ class ScoresControllerTest < ActionController::TestCase
 
   test "should create score" do
     assert_difference('Score.count') do
-      post :create, score: { Match_id: @score.Match_id, Player_id: @score.Player_id, damage_done: @score.damage_done, healing_done: @score.healing_done, killing_blows: @score.killing_blows, player_faction: @score.player_faction, ratings_adjustment: @score.ratings_adjustment }
+      post :create, score: { match_id: @score.match_id, player_id: @score.player_id, damage_done: @score.damage_done, healing_done: @score.healing_done, killing_blows: @score.killing_blows, player_faction: @score.player_faction, ratings_adjustment: @score.ratings_adjustment }
     end
 
     assert_redirected_to score_path(assigns(:score))
@@ -35,7 +35,7 @@ class ScoresControllerTest < ActionController::TestCase
   end
 
   test "should update score" do
-    patch :update, id: @score, score: { Match_id: @score.Match_id, Player_id: @score.Player_id, damage_done: @score.damage_done, healing_done: @score.healing_done, killing_blows: @score.killing_blows, player_faction: @score.player_faction, ratings_adjustment: @score.ratings_adjustment }
+    patch :update, id: @score, score: { match_id: @score.match_id, player_id: @score.player_id, damage_done: @score.damage_done, healing_done: @score.healing_done, killing_blows: @score.killing_blows, player_faction: @score.player_faction, ratings_adjustment: @score.ratings_adjustment }
     assert_redirected_to score_path(assigns(:score))
   end
 

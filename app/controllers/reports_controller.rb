@@ -29,28 +29,48 @@ class ReportsController < ApplicationController
     end_time = DateTime.new(2019, 10, 16, 23, 59)
     
     # Get all the scores for that player
-    Score.where(Player_id: @player.id).find_each do |my_score|      
+    Score.where(player_id: player.id).find_each do |my_score|
       logger.debug "MY SCORE: " + my_score.as_json.to_s
       # Grab out the match that matches =)
-      match = Match.find_by(id: my_score.Match_id)
+      match = Match.find_by(id: my_score.match_id)
       logger.debug "THE MATCH: " + match.as_json.to_s
       # Get the date/time associated with the score to see if we care.
       # match_time = match.date_time.strptime("%Y-%m-%dT%H:%M:%S")
       match_time = match.date_time.to_datetime
       if (match_time > start_time) and (match_time < end_time)      
       
-        @total_matches += 1
+      # For that match, see if we won or lost.
+      b_won = (match.winning_faction == my_score.player_faction) ? true : false
+      
+      @counted = 0
+      specs_seen = Array.new
+      
+      # Find all the OTHER scores associated with that match ID
+      Score.where(match_id: my_score.match_id).find_each do |single_match_score|
+        logger.debug "MATCH SCORE: " + single_match_score.as_json.to_s
         
-        # For that match, see if we won or lost.
-        b_won = (match.winning_faction == my_score.player_faction) ? true : false
-        b_won ? @total_wins += 1 : @total_losses += 1
-        
-        @counted = 0
-        specs_seen = Array.new
-        
-        # Find all the OTHER scores associated with that match ID
-        Score.where(Match_id: my_score.Match_id).find_each do |single_match_score|
-          logger.debug "MATCH SCORE: " + single_match_score.as_json.to_s
+        # If the score isn't OUR score, look at the specs
+        logger.debug "player id from score: " + single_match_score.player_id.to_s
+        logger.debug "my player id: " + player.id.to_s
+        logger.debug "my player id from score: " + my_score.player_id.to_s
+        logger.debug "my faction: " + my_score.player_faction.to_s
+        logger.debug "faction from score: " + single_match_score.player_faction.to_s
+        # Make sure the score seen isn't yours or a teammate's 
+        if (single_match_score.player_id != player.id) and (my_score.player_faction != single_match_score.player_faction)
+          logger.debug "RECORD"
+          # Make the spec name       
+          opposing_spec = Player.find_by(id: single_match_score.player_id).class_name + "-" + Player.find_by(id: single_match_score.player_id).spec_name          
+          logger.debug "Spec name generated: " + opposing_spec
+          
+          #### Single spec building:          
+          if !specs_seen.include?(opposing_spec)              
+            logger.debug "Specs seen: " + specs_seen.to_s
+            logger.debug "Did not see opposting spec, adding it."
+            # look up or create the record for this spec
+            rec = @records_by_spec[opposing_spec] ||= { spec: opposing_spec, wins: 0, losses: 0 }            
+            # update the appropriate field
+            rec[  b_won ? :wins : :losses ] += 1
+          end # We don't want to add two losses or wins against a team of the same specs.
           
           # If the score isn't OUR score, look at the specs
           logger.debug "player id from score: " + single_match_score.Player_id.to_s

@@ -97,8 +97,8 @@ class RawBattle < ActiveRecord::Base
       
       # Now that we have the player and the match ID, make the score.
       Score.create do |s|
-        s.Player_id = player.id
-        s.Match_id = match.id
+        s.player_id = player.id
+        s.match_id = match.id
         s.player_faction = sl[5].to_i         
         s.killing_blows = sl[1].to_i
         s.damage_done = sl[9].to_i
@@ -188,9 +188,9 @@ class RawBattle < ActiveRecord::Base
     # Create association between match and glyph/talent
     #####################################################    
     MatchTalentGlyphSelection.create do |a|      
-      a.Player_id = logging_player.id
-      a.Match_id = match.id
-      a.TalentGlyphSelection_id = tals_and_glyphs.id
+      a.player_id = logging_player.id
+      a.match_id = match.id
+      a.talent_glyph_selection_id = tals_and_glyphs.id
     end    
   end # after_save
 end # RawBattle
