@@ -187,8 +187,7 @@ class RawBattle < ActiveRecord::Base
     #####################################################
     # Create association between match and glyph/talent
     #####################################################    
-    MatchTalentGlyphSelection.create do |a|
-$stderr.puts("a is a #{a.class}, logging_player.id is #{logging_player.id}")
+    MatchTalentGlyphSelection.create do |a|      
       a.player = logging_player
       a.match_id = match.id
       a.talent_glyph_selection_id = tals_and_glyphs.id

@@ -41,3 +41,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 gem 'filterrific'
 gem 'rails_12factor', group: :production
 gem 'puma'
+gem 'momentjs-rails'
+gem 'twitter-bootstrap-rails'
+gem 'bootstrap3-datetimepicker-rails'
+gem 'simple_form'
+gem 'therubyracer'
+gem 'less-rails'
+

@@ -1,6 +1,7 @@
 class Player < ActiveRecord::Base
   has_many :scores
   has_many :matches, through: :scores
+  has_many :match_talent_glyph_selections
 
   filterrific(
     default_filter_params: { sorted_by: 'name_asc' },
