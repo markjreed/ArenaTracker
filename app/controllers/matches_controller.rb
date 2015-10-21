@@ -11,7 +11,7 @@ class MatchesController < ApplicationController
         params[:filterrific],
         select_options: {
           sorted_by: %w{date_time_desc},
-          with_player: Player.all.map(&:player).uniq,          
+          with_player: Player.all.map(&:name).uniq,          
         }
     ) or return
     @matches = @filterrific.find

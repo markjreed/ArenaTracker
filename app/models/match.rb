@@ -16,8 +16,12 @@ class Match < ActiveRecord::Base
     case sort_key.to_s
     when /^name_/
       order "players.name #{direction}"
+    when /^date_time_/
+      order "matches.date_time #{direction}"
     else
-      raise ArgumentError, "Invalid sort option: #{ sort_option.inspect }"
+      # raise ArgumentError, "Invalid sort option: #{ sort_option.inspect }"
+      raise ArgumentError, "Invalid sort option: #{ sort_key.to_s }"
+      
     end
   }
   
