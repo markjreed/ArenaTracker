@@ -34,27 +34,10 @@
 						<% 
 							tga = MatchTalentGlyphSelection.find_by(match_id: match.id, player_id: score.player_id)
 							if tga
-								tg = TalentGlyphSelection.find_by(tga.id)
+								tg = TalentGlyphSelection.find_by(id: tga.talent_glyph_selection_id)
 								if tg
 									tg.tal01 != "" ? tstring = tg.tal01 : tstring = ""
-									tg.tal02 != "" ? tstring = tstring + ", " + tg.tal02 : x=1
-									tg.tal03 != "" ? tstring = tstring + ", " + tg.tal03 :  x=1
-									tg.tal04 != "" ? tstring = tstring + ", " + tg.tal04 : x=1
-									tg.tal05 != "" ? tstring = tstring + ", " + tg.tal05 : x=1
-									tg.tal06 != "" ? tstring = tstring + ", " + tg.tal06 : x=1
-									tg.tal07 != "" ? tstring = tstring + ", " + tg.tal07 : x=1
-									tg.tal08 != "" ? tstring = tstring + ", " + tg.tal08 : x=1
-									
 									tg.gly01 != "" ? gstring = tg.gly01 : gstring = ""
-									tg.gly02 != "" ? gstring = gstring + ", " + tg.gly02 : x=1
-									tg.gly03 != "" ? gstring = gstring + ", " + tg.gly03 : x=1
-									tg.gly04 != "" ? gstring = gstring + ", " + tg.gly04 : x=1
-									tg.gly05 != "" ? gstring = gstring + ", " + tg.gly05 : x=1
-									tg.gly06 != "" ? gstring = gstring + ", " + tg.gly06 : x=1
-									tg.gly07 != "" ? gstring = gstring + ", " + tg.gly07 : x=1
-									tg.gly08 != "" ? gstring = gstring + ", " + tg.gly08 : x=1
-									tg.gly09 != "" ? gstring = gstring + ", " + tg.gly09 : x=1
-									tg.gly10 != "" ? gstring = gstring + ", " + tg.gly10 :		 x=1						
 								end
 							end
 						%>
@@ -71,27 +54,10 @@
 						<% 
 							tga = MatchTalentGlyphSelection.find_by(match_id: match.id, player_id: score.player_id)
 							if tga
-								tg = TalentGlyphSelection.find_by(tga.id)
+								tg = TalentGlyphSelection.find_by(id: tga.talent_glyph_selection_id)
 								if tg
 									tg.tal01 != "" ? tstring = tg.tal01 : tstring = ""
-									tg.tal02 != "" ? tstring = tstring + ", " + tg.tal02 : x=1
-									tg.tal03 != "" ? tstring = tstring + ", " + tg.tal03 :  x=1
-									tg.tal04 != "" ? tstring = tstring + ", " + tg.tal04 : x=1
-									tg.tal05 != "" ? tstring = tstring + ", " + tg.tal05 : x=1
-									tg.tal06 != "" ? tstring = tstring + ", " + tg.tal06 : x=1
-									tg.tal07 != "" ? tstring = tstring + ", " + tg.tal07 : x=1
-									tg.tal08 != "" ? tstring = tstring + ", " + tg.tal08 : x=1
-									
 									tg.gly01 != "" ? gstring = tg.gly01 : gstring = ""
-									tg.gly02 != "" ? gstring = gstring + ", " + tg.gly02 : x=1
-									tg.gly03 != "" ? gstring = gstring + ", " + tg.gly03 : x=1
-									tg.gly04 != "" ? gstring = gstring + ", " + tg.gly04 : x=1
-									tg.gly05 != "" ? gstring = gstring + ", " + tg.gly05 : x=1
-									tg.gly06 != "" ? gstring = gstring + ", " + tg.gly06 : x=1
-									tg.gly07 != "" ? gstring = gstring + ", " + tg.gly07 : x=1
-									tg.gly08 != "" ? gstring = gstring + ", " + tg.gly08 : x=1
-									tg.gly09 != "" ? gstring = gstring + ", " + tg.gly09 : x=1
-									tg.gly10 != "" ? gstring = gstring + ", " + tg.gly10 :		 x=1						
 								end
 							end
 						%>

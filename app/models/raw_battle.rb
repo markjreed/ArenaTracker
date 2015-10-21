@@ -143,17 +143,10 @@ class RawBattle < ActiveRecord::Base
     else
       logger.debug("got talents: " + matches[1]) 
       talents_split = matches[1].split(",")
-      talents_split.sort_by{|talent| talent.downcase}
-      logger.debug(talents_split)
-      talents_split.count > 0 ? t1 = talents_split[0] : t1 = ""
-      talents_split.count > 1 ? t2 = talents_split[1] : t2 = ""
-      talents_split.count > 2 ? t3 = talents_split[2] : t3 = ""
-      talents_split.count > 3 ? t4 = talents_split[3] : t4 = ""
-      talents_split.count > 4 ? t5 = talents_split[4] : t5 = ""
-      talents_split.count > 5 ? t6 = talents_split[5] : t6 = ""
-      talents_split.count > 6 ? t7 = talents_split[6] : t7 = ""
-      talents_split.count > 7 ? t8 = talents_split[7] : t8 = ""
-      
+      talents_split = talents_split.sort_by{|talent| talent.downcase}
+      talents_join = talents_split.join(',')
+      logger.debug(talents_join)
+      t1 = talents_join            
     end 
       
     re = /GLYPHS:,(.*) EGLY/
@@ -163,7 +156,12 @@ class RawBattle < ActiveRecord::Base
     else
       logger.debug("got glyphs: " + matches[1]) 
       glyphs_split = matches[1].split(",")
-      glyphs_split.sort_by{|glyph| glyph.downcase}
+      glyphs_split = glyphs_split.sort_by{|glyph| glyph.downcase}
+      glyphs_join = glyphs_split.join(',')
+      logger.debug(glyphs_join)
+      g1 = glyphs_join            
+      
+=begin      
       logger.debug(glyphs_split)
       glyphs_split.count > 0 ? g1 = glyphs_split[0] : g1 = ""
       glyphs_split.count > 1 ? g2 = glyphs_split[1] : g2 = ""
@@ -175,14 +173,11 @@ class RawBattle < ActiveRecord::Base
       glyphs_split.count > 7 ? g8 = glyphs_split[7] : g8 = ""
       glyphs_split.count > 8 ? g9 = glyphs_split[8] : g9 = ""
       glyphs_split.count > 9 ? g10 = glyphs_split[9] : g10 = ""
+=end      
     end 
      
         
-    tals_and_glyphs = TalentGlyphSelection.find_or_create_by(
-          tal01: t1,  tal02: t2,  tal03: t3,  tal04: t4,  
-          tal05: t5,  tal06: t6,  tal07: t7,  tal08: t8,  
-          gly01: g1, gly02: g2, gly03: g3, gly04: g4, gly05: g5, 
-          gly06: g6, gly07: g7, gly08: g8, gly09: g9, gly10: g10)
+    tals_and_glyphs = TalentGlyphSelection.find_or_create_by(tal01: t1, gly01: g1)
     
     #####################################################
     # Create association between match and glyph/talent
