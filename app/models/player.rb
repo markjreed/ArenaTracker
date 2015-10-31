@@ -38,7 +38,9 @@ class Player < ActiveRecord::Base
 
   scope :with_teammate, lambda { |players|
     where id: [*players].inject([]) { |a,p| 
-       Player.find(p).scores.inject(a) {|a,s| a += Score.where(match: s.match, player_faction: s.player_faction).map{|s|s.player} }
+        Score.where(player: p).inject(a) {|a,s| 
+          a += Score.where(match: s.match, player_faction: s.player_faction).map{|s|s.player} 
+        }
     }.uniq.map(&:id)
   }
 
