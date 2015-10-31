@@ -15,8 +15,9 @@ class PlayersController < ApplicationController
                         server_name_asc server_name_desc
                         class_name_asc class_name_desc
                         spec_name_asc spec_name_desc},
-          with_class_name: Player.all.map(&:class_name).uniq,
-          with_spec_name: Player.all.map(&:spec_name).uniq,
+          with_class_name: Player.all.map(&:class_name).uniq.sort,
+          with_spec_name: Player.all.map(&:spec_name).uniq.sort,
+          with_teammate: Player.all.map {|p| [p.name,p.id]}.sort
         }
     ) or return
     @players = @filterrific.find

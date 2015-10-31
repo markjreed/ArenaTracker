@@ -17,6 +17,12 @@
                { include_blank: '- Any -' }) %>
  </div>
 
+ <div>
+  Teammate
+  <%= f.select(:with_teammate, @filterrific.select_options[:with_teammate],
+               { include_blank: '- Any -' }) %>
+ </div>
+
  <%# :sorted_by filter: order the results how you like %>
  <div>
    Sorted by
