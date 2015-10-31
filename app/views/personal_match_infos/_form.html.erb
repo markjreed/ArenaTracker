@@ -1,0 +1,25 @@
+<%= simple_form_for(@personal_match_info) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+
+    <%= f.association :player %>
+
+    <%= f.association :match %>
+
+    <%= f.input :talents %>
+
+    <%= f.input :glyphs %>
+
+    <%= f.input :note %>
+
+    <%= f.input :fight_number %>
+
+    <%= f.input :winner %>
+
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

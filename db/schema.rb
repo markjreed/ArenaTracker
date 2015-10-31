@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151008003836) do
+ActiveRecord::Schema.define(version: 20151029150010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,27 @@ ActiveRecord::Schema.define(version: 20151008003836) do
     t.integer  "winning_faction"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "reference"
+    t.text     "mmr_list"
+    t.datetime "match_start"
+    t.datetime "match_end"
+    t.text     "death_times"
   end
+
+  create_table "personal_match_infos", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "match_id"
+    t.string   "talents"
+    t.string   "glyphs"
+    t.string   "note"
+    t.integer  "fight_number"
+    t.boolean  "winner"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "personal_match_infos", ["match_id"], name: "index_personal_match_infos_on_match_id", using: :btree
+  add_index "personal_match_infos", ["player_id"], name: "index_personal_match_infos_on_player_id", using: :btree
 
   create_table "players", force: true do |t|
     t.string   "name"

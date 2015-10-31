@@ -2,7 +2,6 @@
 
 Total matches processed for <%= @player.name %>: <%= @total_matches %><p>
 Total spec stat updates: <%= @total_single_spec_stats %><p>
-Total teams seen: <%= @total_teams_seen %><p>
 Overall wins: <%= @total_wins %><p>
 Overall losses: <%= @total_losses %><p>
 
@@ -28,7 +27,7 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 	  <th>Losses</th>      
 	  <th>Loss %</th>	  
 	  <th>Total fights</th>
-	  <th>Match IDs</th>
+	 <!-- <th>Match IDs</th> -->
     </tr>
   </thead>
   <tbody>
@@ -40,7 +39,7 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 		<td align="right"><%= spec_rec[1][:losses] %></td>					
 		<td align="right"><%= spec_rec[1][:losspct] %>%</td>
 		<td align="right"><%= spec_rec[1][:total] %></td>
-		<td align="left"><%= spec_rec[1][:matches].map(&:inspect).join(', ') %></td>
+		<!-- <td align="left"><%= spec_rec[1][:matches].map(&:inspect).join(', ') %></td> -->
       </tr>
     <% end %>
   </tbody>

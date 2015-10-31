@@ -1,4 +1,110 @@
-<h1>Listing matches</h1>
+<h1>Match History</h1>
+
+Showing <%= @matches.count %> total matches
+
+<%# For each match we will have two tables - a plain top table %>
+<%# showing the basic match information, and underneath that, %>
+<%# a table with the scores and any information associated with %>
+<%# a specific player. %>
+<%##################################################%>
+<%# FOR EVERY MATCH 								%>
+<%##################################################%>
+<% @matches.each do |match| %>
+<%# Here's the general match information table . . . %>
+<table>
+  <tbody> 
+      <tr>		
+        <td><br>
+			<b><%= match.arena_name %></b> - <%= match.date_time %><br>            
+			<% if match.mmr_list.length > 1 %>
+			Approximate MMR:<% mmr_list = match.mmr_list
+				mmr_list[0] = '' %>
+			<%= mmr_list.split(",").map(&:to_i).instance_eval { reduce(:+) / size.to_f.round } %>
+		<% else %>
+			Skirmish
+		<% end %> </td>
+      </tr>
+  </tbody>
+</table>
+
+
+<%# Here are the scores and personal information . . . %>
+<table class="general">
+  <thead>
+    <tr class="head">
+	  <th>&nbsp;</th>
+      <th>Player</th>
+	  <th>Class</th>
+      <th>Spec</th>
+      <th>KB</th>
+	  <th>Damage</th>
+	  <th>Healing</th>
+	  <th>Rating Chg</th>      
+    </tr>
+  </thead>
+  <tbody>
+ 
+	<%##################################################%>
+	<%# FOR EVERY SCORE 								%>
+	<%##################################################%>
+		
+   <% match.scores.each do |score|
+		# Grab out the personal match data associated with the score.
+		pmi = PersonalMatchInfo.find_by(match_id: match.id, player_id: score.player_id)
+		if pmi
+			talents = pmi.talents 
+			glyphs =  pmi.glyphs 
+			!pmi.note.nil? ? note = pmi.note.split(/\^\^\^/)[0] : note = ""
+		end # end if there is personal match info for a player.		
+		
+		# If it's a winning score, style the row.
+		if score.player_faction == match.winning_faction 
+		   winner_text = "W" %>
+		  <tr class="win">
+		<% else %>
+		  <tr>
+		<% end %>	
+			<td><%= winner_text %></td>
+			<td><%= link_to Player.find(score.player_id).name %></td>
+			<td><%= Player.find(score.player_id).class_name %></td>
+			<td><%= Player.find(score.player_id).spec_name %></td>
+			<td><%= score.killing_blows %></td>		
+			<td  ><%= number_with_precision(score.damage_done, :precision => 0, :delimiter => ',') %></td>		
+			<td  align="right"><%= number_with_precision(score.healing_done, :precision => 0, :delimiter => ',') %></td>		
+			<td  align="right"><%= score.ratings_adjustment %></td>		
+		</tr>		
+	<% if pmi %>
+		<% if winner_text == "W" %>
+			  <tr class="win">
+			<% else %>
+			  <tr>
+			<% end %>			
+				<td></td>		
+				<td colspan ="8">
+					<ul><font size="1">
+					  <% if note != "" %>
+						<li><%= note %></li>
+					  <% end %>
+					  <li><%= talents %></li>
+					  <li><%= glyphs %></li>
+					  </font></ul></td>
+			</tr>
+	<% end %>
+	<% end %> <!-- End for each score -->		
+		
+
+    <% end %>  <!-- End for each match -->
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
 
 <table>
   <thead>
@@ -6,6 +112,7 @@
       <th>Date time</th>
       <th>Arena name</th>
       <th>Winning faction</th>
+	  <th>Appx.MMR</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,10 +122,14 @@
       <tr>
         <td><%= match.date_time %></td>
         <td><%= match.arena_name %></td>
-        <td><%= match.winning_faction %></td>
-        <td><%= link_to 'Show', match %></td>
-        <td><%= link_to 'Edit', edit_match_path(match) %></td>
-        <td><%= link_to 'Destroy', match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= match.winning_faction %></td>		
+		<% if match.mmr_list.length > 1 %>
+			<% mmr_list = match.mmr_list
+				mmr_list[0] = '' %>
+			<td><%= mmr_list.split(",").map(&:to_i).instance_eval { reduce(:+) / size.to_f.round } %></td>
+		<% else %>
+			<td>Skirmish</td>
+		<% end %>        
       </tr>
 	  <tr>
 		<td>&nbsp;</td>
@@ -31,19 +142,8 @@
 						DMG: <%= score.damage_done %>
 						HEAL: <%= score.healing_done %>
 						ADJ: <%= score.ratings_adjustment %></b>
-						<% 
-							tga = MatchTalentGlyphSelection.find_by(match_id: match.id, player_id: score.player_id)
-							if tga
-								tg = TalentGlyphSelection.find_by(id: tga.talent_glyph_selection_id)
-								if tg
-									tg.tal01 != "" ? tstring = tg.tal01 : tstring = ""
-									tg.gly01 != "" ? gstring = tg.gly01 : gstring = ""
-								end
-							end
-						%>
-						<% if tg %>
-						<ul><li><font size="1"><%= tstring %></font></li><li><font size="1"><%= gstring %></font></li></ul></li>
-						<% end %>
+						
+						
 				<% else %>
 						<li><%= link_to Player.find(score.player_id).name %>
 						<%= Player.find(score.player_id).class_name %>-<%= Player.find(score.player_id).spec_name %>
@@ -75,3 +175,4 @@
 <br>
 
 <%= link_to 'New Match', new_match_path %>
+</body>

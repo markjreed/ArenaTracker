@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Player:</strong>
+  <%= @personal_match_info.player %>
+</p>
+
+<p>
+  <strong>Match:</strong>
+  <%= @personal_match_info.match %>
+</p>
+
+<p>
+  <strong>Talents:</strong>
+  <%= @personal_match_info.talents %>
+</p>
+
+<p>
+  <strong>Glyphs:</strong>
+  <%= @personal_match_info.glyphs %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @personal_match_info.note %>
+</p>
+
+<p>
+  <strong>Fight number:</strong>
+  <%= @personal_match_info.fight_number %>
+</p>
+
+<p>
+  <strong>Winner:</strong>
+  <%= @personal_match_info.winner %>
+</p>
+
+<%= link_to 'Edit', edit_personal_match_info_path(@personal_match_info) %> |
+<%= link_to 'Back', personal_match_infos_path %>

@@ -1,3 +1,15 @@
 // Place all the styles related to the Reports controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+table{border-collapse:collapse;}
+tr.row td{
+border-width:1px 0;
+border-style:solid;
+border-color:black;
+}
+tr.row td.left{
+border-width:1px 0 1px 1px;
+}
+tr.row td.right{
+border-width:1px 1px 1px 0;
+}

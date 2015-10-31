@@ -1,5 +1,6 @@
 class Player < ActiveRecord::Base
   has_many :scores
+  has_many :personal_match_infos
   has_many :matches, through: :scores
   has_many :match_talent_glyph_selections
 

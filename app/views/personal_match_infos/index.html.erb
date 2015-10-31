@@ -1,0 +1,37 @@
+<h1>Listing personal_match_infos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Match</th>
+      <th>Talents</th>
+      <th>Glyphs</th>
+      <th>Note</th>
+      <th>Fight number</th>
+      <th>Winner</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @personal_match_infos.each do |personal_match_info| %>
+      <tr>
+        <td><%= personal_match_info.player %></td>
+        <td><%= personal_match_info.match %></td>
+        <td><%= personal_match_info.talents %></td>
+        <td><%= personal_match_info.glyphs %></td>
+        <td><%= personal_match_info.note %></td>
+        <td><%= personal_match_info.fight_number %></td>
+        <td><%= personal_match_info.winner %></td>
+        <td><%= link_to 'Show', personal_match_info %></td>
+        <td><%= link_to 'Edit', edit_personal_match_info_path(personal_match_info) %></td>
+        <td><%= link_to 'Destroy', personal_match_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Personal match info', new_personal_match_info_path %>
