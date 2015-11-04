@@ -27,6 +27,8 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 	  <th>Losses</th>      
 	  <th>Loss %</th>	  
 	  <th>Total fights</th>
+	  <th>Won fights</th>
+	  <th>Lost fights</th>
 	 <!-- <th>Match IDs</th> -->
     </tr>
   </thead>
@@ -39,7 +41,8 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 		<td align="right"><%= spec_rec[1][:losses] %></td>					
 		<td align="right"><%= spec_rec[1][:losspct] %>%</td>
 		<td align="right"><%= spec_rec[1][:total] %></td>
-		<!-- <td align="left"><%= spec_rec[1][:matches].map(&:inspect).join(', ') %></td> -->
+		<td align="left"><%= spec_rec[1][:won_matches].join(',') %></td> 
+		<td align="left"><%= spec_rec[1][:lost_matches].join(',') %></td> 
       </tr>
     <% end %>
   </tbody>
@@ -55,6 +58,8 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 	  <th>Losses</th>      
 	  <th>Loss %</th>
 	  <th>Total fights</th>
+	  <th>Won fights</th>
+	  <th>Lost fights</th>
     </tr>
   </thead>
   <tbody>
@@ -66,6 +71,8 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 		<td align="right"><%= spec_rec[1][:losses] %></td>					
 		<td align="right"><%= spec_rec[1][:losspct] %>%</td>
 		<td align="right"><%= spec_rec[1][:total] %></td>
+		<td align="left"><%= spec_rec[1][:won_matches].join(',') %></td> 
+		<td align="left"><%= spec_rec[1][:lost_matches].join(',') %></td> 
       </tr>
     <% end %>
   </tbody>

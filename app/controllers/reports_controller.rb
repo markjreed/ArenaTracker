@@ -1,3 +1,5 @@
+require 'json'
+
 class ReportsController < ApplicationController
 
   def index
@@ -41,14 +43,32 @@ class ReportsController < ApplicationController
       # match_time = match.date_time.strptime("%Y-%m-%dT%H:%M:%S")      
       match_time = match.date_time.to_datetime
       
+      logger.debug "Start time: " + start_time.strftime('%c')
+      logger.debug start_time.strftime("%Z")
+      
+      logger.debug "End time: " + end_time.strftime('%c')
+      logger.debug end_time.strftime("%Z")
+      
+      logger.debug "Match time: " + match_time.strftime('%c')
+      logger.debug match_time.strftime("%Z")
+      
+      logger.debug ("m > s?: " + (match_time > start_time).to_s)
+      logger.debug (((match_time - start_time) / 3600).round).to_s
+      
+      logger.debug ("m < e?: " + (match_time < end_time).to_s)
+      logger.debug (((end_time - match_time) / 3600).round).to_s
       
       if (match_time > start_time) and (match_time < end_time)        
-
+        logger.debug "Match in right time period"
         # get other player info:
         @player2 = Player.find @params[:player_id2]
         
+        logger.debug "Looking for next player: " + @player2.name
+        
         # if match.reference.include? "Asaemon"
         if match.reference.include? @player2.name
+        
+          logger.debug "Got a match on the name and date"
         
           # For that match, see if we won or lost.
           b_won = (match.winning_faction == my_score.player_faction) ? true : false
@@ -91,10 +111,31 @@ class ReportsController < ApplicationController
                   logger.debug "Specs seen: " + specs_seen.to_s
                   logger.debug "Did not see opposting spec, adding it."
                   # look up or create the record for this spec
-                  rec = @records_by_spec[opposing_spec] ||= { spec: opposing_spec, wins: 0, losses: 0, matches: [] }
-                  # update the appropriate field
-                  rec[  b_won ? :wins : :losses ] += 1
-                  rec[:matches] ||= [my_score.match_id]
+                  rec = @records_by_spec[opposing_spec] ||= { spec: opposing_spec, wins: 0, losses: 0, won_matches: [], lost_matches: [], won_talents: [], won_glyphs: [], lost_talents: [],   lost_glyphs: []}
+                  pmi = PersonalMatchInfo.find_by(match_id: my_score.match_id, player_id: @player.id)                   
+                  # Update the count and list of matches
+                  if b_won                    
+                    rec[:wins] += 1
+                    rec[:won_matches] << [my_score.match_id]  
+                    if pmi
+                      logger.debug("Logging won talents and glyphs")
+                      logger.debug(pmi.talents)
+                      logger.debug(pmi.glyphs)
+                      rec[:won_talents] << pmi.talents 
+                      rec[:won_glyphs] << pmi.glyphs 
+                    end # end if there is personal match info for a player.		
+                  else
+                    rec[:losses] += 1
+                    rec[:lost_matches] << [my_score.match_id]                  
+                    if pmi
+                      logger.debug("Logging lost talents and glyphs")
+                      logger.debug(pmi.talents)
+                      logger.debug(pmi.glyphs)
+                      rec[:lost_talents] << pmi.talents 
+                      rec[:lost_glyphs] << pmi.glyphs 
+                    end # end if there is personal match info for a player.		
+                  end
+                  
                   @total_single_spec_stats += 1
                 end # We don't want to add two losses or wins against a team of the same specs.
 
@@ -112,18 +153,31 @@ class ReportsController < ApplicationController
           
           # Build the double spec array here
           opposing_team = specs_seen.sort.to_s
-          rec = @records_by_team[opposing_team] ||= { team: opposing_team, wins: 0, losses: 0, matches: [my_score.match_id] }
+          rec = @records_by_team[opposing_team] ||= { team: opposing_team, wins: 0, losses: 0, won_matches: [], lost_matches: [] }
           # update the appropriate field
-          rec[  b_won ? :wins : :losses ] += 1
+          #rec[  b_won ? :wins : :losses ] += 1
+         # Update the count and list of matches
+              if b_won
+                rec[:wins] += 1
+                rec[:won_matches] << [my_score.match_id]                  
+              else
+                rec[:losses] += 1
+                rec[:lost_matches] << [my_score.match_id]                  
+              end        
           @total_teams_seen += 1
           @total_matches += 1 
         else
-          logger.debug("match didn't have asaemon.")
+          logger.debug("match didn't have other player.")
         end # end if the match has the partner we care about
       end # end if the match is in the range we care about
     end # end - for all scores matching the player-of-interest id
 
     # Now sort the hash and add percentages . . . .   
+    logger.debug("Sorting hashes and adding percentages.")
+    logger.debug("IFound: " + @records_by_spec.count.to_s + " specs")
+    logger.debug(JSON.pretty_generate(@records_by_spec))
+    logger.debug("IFound: " + @records_by_team.count.to_s + " teams")
+    logger.debug(JSON.pretty_generate(@records_by_team))
     @records_by_spec.each { |k, v| @records_by_spec[k][:winpct] = (100 * @records_by_spec[k][:wins].to_f / (@records_by_spec[k][:wins].to_f + @records_by_spec[k][:losses].to_f)).round(0)}
     @records_by_spec.each { |k, v| @records_by_spec[k][:losspct] = (100 * @records_by_spec[k][:losses].to_f / (@records_by_spec[k][:wins].to_f + @records_by_spec[k][:losses].to_f)).round(0)}
     @records_by_spec.each { |k, v| @records_by_spec[k][:total] = (@records_by_spec[k][:wins] + @records_by_spec[k][:losses]) }
