@@ -8,8 +8,8 @@
   <%= select_tag(:player_id, 
                  options_from_collection_for_select(Player.all.order('name'), :id, :name, Player.where(name: "Furiousbess").first.id)) %>
   <%= label_tag(:report_type, "With Player:") %>
-  <%= select_tag(:player_id2, 
-                 options_from_collection_for_select(Player.all.order('name'), :id, :name), prompt: "<All Partners>") %>				 
+  <% #= select_tag(:player_id2, options_from_collection_for_select(Player.all.order('name'), :id, :name), prompt: "<All Partners>") %>				 
+  <%= select_tag(:player_id2, options_from_collection_for_select(Player.all.order('name'), :id, :name, Player.where(name: "Khormar").first.id)) %>				 
 <%= render( partial: 'reports/datefield', locals: { input_name: 'from_date', input_label: "From: "} ) %>
 <%= render( partial: 'reports/datefield', locals: { input_name: 'to_date', input_label: "To: "} ) %>
 

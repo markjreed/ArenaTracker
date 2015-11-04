@@ -188,31 +188,15 @@ class ReportsController < ApplicationController
           # update the appropriate field
           #rec[  b_won ? :wins : :losses ] += 1
          # Update the count and list of matches
-           pmi = PersonalMatchInfo.find_by(match_id: my_score.match_id, player_id: @player.id)                   
-          # Update the count and list of matches
-          if b_won                    
-            rec[:wins] += 1
-            rec[:won_matches] << [my_score.match_id]  
-            if pmi
-              logger.debug("Logging won talents and glyphs")
-              logger.debug(pmi.talents)
-              logger.debug(pmi.glyphs)
-              rec[:won_talents] << pmi.talents 
-              rec[:won_glyphs] << pmi.glyphs  
-              tally_talents(rec, b_won, pmi.talents, pmi.glyphs)
-            end # end if there is personal match info for a player.		
-          else
-            rec[:losses] += 1
-            rec[:lost_matches] << [my_score.match_id]                  
-            if pmi
-              logger.debug("Logging lost talents and glyphs")
-              logger.debug(pmi.talents)
-              logger.debug(pmi.glyphs)
-              rec[:lost_talents] << pmi.talents 
-              rec[:lost_glyphs] << pmi.glyphs 
-              tally_talents(rec, b_won, pmi.talents, pmi.glyphs)
-            end # end if there is personal match info for a player.		
-          end
+              if b_won
+                rec[:wins] += 1
+                rec[:won_matches] << [my_score.match_id]  
+                tally_talents(rec, b_won, pmi.talents, pmi.glyphs)                
+              else
+                rec[:losses] += 1
+                rec[:lost_matches] << [my_score.match_id]                  
+                tally_talents(rec, b_won, pmi.talents, pmi.glyphs)
+              end        
           @total_teams_seen += 1
           @total_matches += 1 
         else
