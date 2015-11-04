@@ -1,22 +1,22 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="input-group date" id="<%= input_name %>">
-                    <label for="<%= input_name %>_control"><%= input_label %></label>
-                    <input name="<%= input_name %>" id="<%= input_name %>_control" type="text" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            $(function () {
-                $("#<%= input_name %>").datetimepicker({
-                  format: 'YYYY-MM-DDTHH:MM:SSZ'
-                });
-            });
-        </script>
-    </div>
-</div>
+<% widget_name = input_name + "_widget" %>
+<p><label for="<%= widget_name %>"><%= input_label %></label>
+   <input name="<%= widget_name %>" id="<%= widget_name %>" />
+   <input name="<%= input_name %>_time" id="<%= input_name %>_time" /></p></p>
+   <input id="<%= input_name %>" name="<%= input_name %>" type=text disabled="True" value="<%= default_value %>" >
+<script>
+  (function(){
+    var value = new Date('<%= default_value %>');
+    var date_widget = $("#<%= widget_name %>");
+    var time_widget = $("#<%= input_name %>_time");
+    var hidden = $("#<%= input_name %>");
+
+    function update() {
+      var cur_date = time_widget.timepicker('getTime', 
+                     date_widget.datepicker('getDate'));
+      hidden.val( cur_date.toISOString() )
+    }
+
+    time_widget.timepicker({scrollDefault: value}).timepicker('setTime',value).change(update);
+    date_widget.datepicker({dateFormat: 'd MM yy'}).datepicker('setDate',value).change(update);
+  })()
+</script>

@@ -11,11 +11,10 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
+//= require "jquery.timepicker.min.js"
 //= require jquery_ujs
-//= require bootstrap
 //= require turbolinks
 //= require_tree .
 //= require filterrific/filterrific-jquery
 //= require moment
-//= require bootstrap-datetimepicker
-//= require pickers

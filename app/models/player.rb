@@ -19,8 +19,14 @@ class Player < ActiveRecord::Base
     case sort_key.to_s
     when /^name_/
       order "players.name #{direction}"
+    when /^class_name_/
+      order "players.class_name #{direction}"
+    when /^server_name_/
+      order "players.server_name #{direction}"
+    when /^spec_name_/
+      order "players.spec_name #{direction}"
     else
-      raise ArgumentError, "Invalid sort option: #{ sort_option.inspect }"
+      raise ArgumentError, "Invalid sort option: #{ sort_key.inspect }"
     end
   }
 
