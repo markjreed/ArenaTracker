@@ -9,7 +9,7 @@
                  options_from_collection_for_select(Player.all.order('name'), :id, :name, Player.where(name: "Furiousbess").first.id)) %>
   <br>
   <%= label_tag(:report_type, "With Player:") %>
-  <%= select_tag(:opponents, 
+  <%= select_tag(:player_id2, 
                  options_from_collection_for_select(Player.all.order('name'), :id, :name), prompt: "<All Partners>") %>				 
 <%= render( partial: 'reports/datefield', locals: { 
     input_name: 'from_date',
@@ -17,7 +17,7 @@
     default_value: Date.today.change({month:1,day:1}).strftime('%F')
   } ) %>
 <%= render( partial: 'reports/datefield', locals: { input_name: 'to_date', input_label: "To: ",
-                                                    default_value: DateTime.now.utc.strftime('%FT%TZ')} ) %>
+                                                    default_value: DateTime.now.utc.strftime('%FT%TZ')} ) %><p>
 
 Minimum Rating: <%= number_field_tag 'min_rating', 0, within: 0..4000 %><p>
 Maximum Rating: <%= number_field_tag 'max_rating', 4000, within: 0..4000 %><p>

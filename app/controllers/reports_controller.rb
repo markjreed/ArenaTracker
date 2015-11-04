@@ -56,10 +56,10 @@ class ReportsController < ApplicationController
     logger.debug "From date: " + @params[:from_date]
     logger.debug "To date: " + @params[:to_date]
 # FOR EASE OF TESTING - take out hard coding!    
-    # start_time = DateTime.parse(@params[:from_date])
-    # end_time = DateTime.parse(@params[:to_date])
-    start_time = Date.today - 120
-    end_time = DateTime.now
+    start_time = DateTime.parse(@params[:from_date])
+    end_time = DateTime.parse(@params[:to_date])
+#    start_time = Date.today - 120
+#    end_time = DateTime.now
 
     @player = Player.find @params[:player_id]
     # Get all the scores for that player

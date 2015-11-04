@@ -59,6 +59,7 @@ GEM
       railties (>= 3.1)
     multi_json (1.11.2)
     pg (0.18.3)
+    pg (0.18.3-x86-mingw32)
     puma (2.14.0)
     rack (1.5.5)
     rack-test (0.6.3)
@@ -114,12 +115,15 @@ GEM
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2015.7)
+      tzinfo (>= 1.0.0)
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)

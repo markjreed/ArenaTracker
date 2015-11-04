@@ -2,7 +2,7 @@
 <p><label for="<%= widget_name %>"><%= input_label %></label>
    <input name="<%= widget_name %>" id="<%= widget_name %>" />
    <input name="<%= input_name %>_time" id="<%= input_name %>_time" /></p></p>
-   <input id="<%= input_name %>" name="<%= input_name %>" type=text disabled="True" value="<%= default_value %>" >
+   <input id="<%= input_name %>" name="<%= input_name %>" type=hidden value="<%= default_value %>" >
 <script>
   (function(){
     var value = new Date('<%= default_value %>');
