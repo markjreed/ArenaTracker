@@ -5,6 +5,11 @@ Total spec stat updates: <%= @total_single_spec_stats %><p>
 Overall wins: <%= @total_wins %><p>
 Overall losses: <%= @total_losses %><p>
 
+<% 
+	show_talents = params[:show_talents]
+	show_glyphs = params[:show_glyphs]
+	show_notes = params[:show_notes]
+%>
 <p>
 
 <% if false %>
@@ -44,7 +49,9 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 		<td align="left"><%= spec_rec[1][:won_matches].join(',') %></td> 
 		<td align="left"><%= spec_rec[1][:lost_matches].join(',') %></td> 
       </tr>
-	  <% # Now show the talents and talent percentages, under the spec %>	  	  
+	  
+	  <% # Now show the talents and talent percentages, under the spec %>	  
+	  <% if show_talents %>
 	  <tr>
 		<td></td>
 		<td colspan ="7">
@@ -76,7 +83,7 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 			</table>
 			</td>
 	    </tr>
-	  
+	  <% end %>
     <% end # END FOR EACH SPEC %>
   </tbody>
 </table>
@@ -109,6 +116,7 @@ Tally of wins/losses for all matches containing at least one of a particular spe
       </tr>
 
 	  <% # Now show the talents and talent percentages, under the spec %>	  	  
+	  <% if show_talents %>
 	  <tr>
 		<td></td>
 		<td colspan ="7">
@@ -140,7 +148,7 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 			</table>
 			</td>
 	    </tr>
-
+		<% end %>
 	  
     <% end %>
   </tbody>

@@ -90,12 +90,18 @@ class ReportsController < ApplicationController
       if (match_time > start_time) and (match_time < end_time)        
         logger.debug "Match in right time period"
         # get other player info:
-        @player2 = Player.find @params[:player_id2]
+        if @params[:player_id2].to_i > 0
+          @player2 = Player.find @params[:player_id2]
+          logger.debug "Looking for next player: " + @player2.name
+          check_player = true
+        else
+          check_player = false
+        end
         
-        logger.debug "Looking for next player: " + @player2.name
+        
         
         # if match.reference.include? "Asaemon"
-        if match.reference.include? @player2.name
+        if !check_player or match.reference.include? @player2.name
         
           logger.debug "Got a match on the name and date"
         
