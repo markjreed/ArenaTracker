@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109153325) do
+ActiveRecord::Schema.define(version: 20151108192251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,11 +59,11 @@ ActiveRecord::Schema.define(version: 20151109153325) do
 
   create_table "players", force: true do |t|
     t.string   "name"
-    t.string   "server_name"
     t.string   "class_name"
     t.string   "spec_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "server_id"
   end
 
   create_table "raw_battles", force: true do |t|
@@ -88,6 +88,15 @@ ActiveRecord::Schema.define(version: 20151109153325) do
 
   add_index "scores", ["match_id"], name: "index_scores_on_match_id", using: :btree
   add_index "scores", ["player_id"], name: "index_scores_on_player_id", using: :btree
+
+  create_table "servers", force: true do |t|
+    t.string   "name"
+    t.string   "translation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "servers", ["name"], name: "index_servers_on_name", unique: true, using: :btree
 
   create_table "talent_glyph_selections", force: true do |t|
     t.string   "tal01"

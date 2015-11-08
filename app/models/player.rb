@@ -3,6 +3,9 @@ class Player < ActiveRecord::Base
   has_many :personal_match_infos
   has_many :matches, through: :scores
   has_many :match_talent_glyph_selections
+  belongs_to :server
+
+  def server_name; server.name end
 
   filterrific(
     default_filter_params: { sorted_by: 'name_asc' },
@@ -49,6 +52,9 @@ class Player < ActiveRecord::Base
         }
     }.uniq.map(&:id)
   }
+
+  def pvp_url
+  end
 
   def self.options_for_select
     order('LOWER(name)').map { |e| [e.name, e.id] }

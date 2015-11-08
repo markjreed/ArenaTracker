@@ -1,0 +1,85 @@
+
+<%# <%#ere's the general match information table . . . %>
+<table>
+  <tbody> 
+      <tr>		
+        <td><br>
+			<b><%= match.arena_name %></b> - <%= match.date_time %><br>            
+			<% if match.mmr_list.length > 1 %>
+			Approximate MMR:<% mmr_list = match.mmr_list
+				mmr_list[0] = '' %>
+			<%= mmr_list.split(",").map(&:to_i).instance_eval { reduce(:+) / size.to_f.round } %>
+		<% else %>
+			Skirmish
+		<% end %> </td>
+      </tr>
+  </tbody>
+</table>
+
+
+<%# Here are the scores and personal information . . . %>
+<table class="general">
+  <thead>
+    <tr class="head">
+	  <th>&nbsp;</th>
+      <th>Player</th>
+	  <th>Class</th>
+      <th>Spec</th>
+      <th>KB</th>
+	  <th>Damage</th>
+	  <th>Healing</th>
+	  <th>Rating Chg</th>      
+    </tr>
+  </thead>
+  <tbody>
+ 
+	<%##################################################%>
+	<%# FOR EVERY SCORE 								%>
+	<%##################################################%>
+		
+   <% match.scores.each do |score|
+		# Grab out the personal match data associated with the score.
+		pmi = PersonalMatchInfo.find_by(match_id: match.id, player_id: score.player_id)
+		if pmi
+			talents = pmi.talents 
+			glyphs =  pmi.glyphs 
+			!pmi.note.nil? ? note = pmi.note.split(/\^\^\^/)[0] : note = ""
+		end # end if there is personal match info for a player.		
+		
+		# If it's a winning score, style the row.
+		if score.player_faction == match.winning_faction 
+		   winner_text = "W" %>
+		  <tr class="win">
+		<% else %>
+		  <tr>
+		<% end %>	
+			<td><%= winner_text %></td>			
+			<td><a href="<%= get_pvp_url(score.player_id) %>"><%= Player.find(score.player_id).name %>-<%= Player.find(score.player_id).server_name %></td>
+			<td><%= Player.find(score.player_id).class_name %></td>
+			<td><%= Player.find(score.player_id).spec_name %></td>
+			<td><%= score.killing_blows %></td>		
+			<td  ><%= number_with_precision(score.damage_done, :precision => 0, :delimiter => ',') %></td>		
+			<td  align="right"><%= number_with_precision(score.healing_done, :precision => 0, :delimiter => ',') %></td>		
+			<td  align="right"><%= score.ratings_adjustment %></td>		
+		</tr>		
+	<% if pmi %>
+		<% if winner_text == "W" %>
+			  <tr class="win">
+			<% else %>
+			  <tr>
+			<% end %>			
+				<td></td>		
+				<td colspan ="8">
+					<ul><font size="1">
+					  <% if note != "" %>
+						<li><%= note %></li>
+					  <% end %>
+					  <li><%= talents %></li>
+					  <li><%= glyphs %></li>
+					  </font></ul></td>
+			</tr>
+	<% end %>
+	<% end %> <!-- End for each score -->		
+		
+  </tbody>
+</table>

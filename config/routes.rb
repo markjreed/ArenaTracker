@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :servers
+
   resources :personal_match_infos
 
   get '/reports', to: 'reports#index'
