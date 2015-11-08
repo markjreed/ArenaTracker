@@ -47,7 +47,13 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 		<td align="right"><%= spec_rec[1][:losses] %></td>					
 		<td align="right"><%= spec_rec[1][:losspct] %>%</td>
 		<td align="right"><%= spec_rec[1][:total] %></td>
-		<td align="left"><%= spec_rec[1][:won_matches].join(',') %></td> 
+		<td align="left"><%
+
+        won = spec_rec[1][:won_matches].flatten
+        query = '?' + won.map { |id| "filterrific[with_id][]=#{id}" }.join('&')
+        %>
+        <%= link_to "Won #{won.length} matches", "/matches#{query}" %>
+        </td>
 		<td align="left"><%= spec_rec[1][:lost_matches].join(',') %></td> 
       </tr>
 	  

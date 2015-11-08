@@ -1,4 +1,6 @@
 class Player < ActiveRecord::Base
+  PVP_URL_PREFIX = 'http://eu.battle.net/wow/en/character/'
+
   has_many :scores
   has_many :personal_match_infos
   has_many :matches, through: :scores
@@ -54,7 +56,7 @@ class Player < ActiveRecord::Base
   }
 
   def pvp_url
-    
+    File.join PVP_URL_PREFIX, server.translated_name, name, 'pvp#bgs'
   end
 
   def self.options_for_select

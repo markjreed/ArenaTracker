@@ -1,0 +1,78 @@
+Showing <%= @matches.count %> total matches
+
+<%# For each match we will have two tables - a plain top table %>
+<%# showing the basic match information, and underneath that, %>
+<%# a table with the scores and any information associated with %>
+<%# a specific player. %>
+<%##################################################%>
+<%# FOR EVERY MATCH 								%>
+<%##################################################%>
+<% @matches.each do |match| %>
+<%= render( partial: 'matches/show', locals: { match: match } ) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date time</th>
+      <th>Arena name</th>
+      <th>Winning faction</th>
+	  <th>Appx.MMR</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= match.date_time %></td>
+        <td><%= match.arena_name %></td>
+        <td><%= match.winning_faction %></td>		
+		<% if match.mmr_list.length > 1 %>
+			<% mmr_list = match.mmr_list
+				mmr_list[0] = '' %>
+			<td><%= mmr_list.split(",").map(&:to_i).instance_eval { reduce(:+) / size.to_f.round } %></td>
+		<% else %>
+			<td>Skirmish</td>
+		<% end %>        
+      </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>
+			<ul><% match.scores.each do |score|
+					 if score.player_faction == match.winning_faction %>
+						<li><b><%= link_to Player.find(score.player_id).name %>
+						<%= Player.find(score.player_id).class_name %>-<%= Player.find(score.player_id).spec_name %>
+						KB: <%= score.killing_blows %>
+						DMG: <%= score.damage_done %>
+						HEAL: <%= score.healing_done %>
+						ADJ: <%= score.ratings_adjustment %></b>
+						
+						
+				<% else %>
+						<li><%= link_to Player.find(score.player_id).name %>
+						<%= Player.find(score.player_id).class_name %>-<%= Player.find(score.player_id).spec_name %>
+						KB: <%= score.killing_blows %>
+						DMG: <%= score.damage_done %>
+						HEAL: <%= score.healing_done %>
+						ADJ: <%= score.ratings_adjustment %>
+						<% 
+							tga = MatchTalentGlyphSelection.find_by(match_id: match.id, player_id: score.player_id)
+							if tga
+								tg = TalentGlyphSelection.find_by(id: tga.talent_glyph_selection_id)
+								if tg
+									tg.tal01 != "" ? tstring = tg.tal01 : tstring = ""
+									tg.gly01 != "" ? gstring = tg.gly01 : gstring = ""
+								end
+							end
+						%>
+						<% if tg %>
+						<ul><li><font size="1"><%= tstring %></font></li><li><font size="1"><%= gstring %></font></li></ul></li>
+						<% end %>
+				<% end %>
+			<% end %></ul>
+		</td>
+	  </tr>
+    <% end %>  <!-- End for each match -->
+  </tbody>
+</table>

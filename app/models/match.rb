@@ -23,6 +23,7 @@ class Match < ActiveRecord::Base
       :sorted_by,
       :with_player,
       :mmr_above
+      :with_id
     ]
   )
 
@@ -44,7 +45,17 @@ class Match < ActiveRecord::Base
     where player: [*players]
   }
 
+
   scope :mmr_above, lambda { |mmr|
     select { |match| match.mmr_avg > mmr } 
   }
+
+  scope :with_id, lambda { |matches|
+    where id: [*matches]
+  }
+
+  def self.options_for_select
+    order('id').map { |e| [e.id, e.id] }
+  end
+
 end
