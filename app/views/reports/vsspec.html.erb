@@ -23,7 +23,7 @@ Overall losses: <%= @total_losses %><p>
 <h2>vs. Single Spec</h2>
 Tally of wins/losses for all matches containing at least one of a particular spec.  A match against a same-spec pair will only be tallied once.
 
-<table class="general">
+<table class="general" id="report">
   <thead>
     <tr>
       <th>Spec</th>
@@ -39,8 +39,9 @@ Tally of wins/losses for all matches containing at least one of a particular spe
   </thead>
   <tbody>
     <% @records_by_spec.each do |spec_rec| %>
-      <tr>
-		<td><b><%= spec_rec[1][:spec] %></b></td>		
+      <tr class="spec">
+		<td class="toggle">▶
+            <b><%= spec_rec[1][:spec] %></b></td>		
 		<td align="right"><%= spec_rec[1][:wins] %></td>		
 		<td align="right"><%= spec_rec[1][:winpct] %>%</td>
 		<td align="right"><%= spec_rec[1][:losses] %></td>					
@@ -51,11 +52,11 @@ Tally of wins/losses for all matches containing at least one of a particular spe
       </tr>
 	  
 	  <% # Now show the talents and talent percentages, under the spec %>	  
-	  <% if show_talents %>
-	  <tr>
+       <tr class="talent"><td>&nbsp;</td><th colspan="7">Talent Detail</th></tr>
+	   <tr class="talent">
 		<td></td>
 		<td colspan ="7">
-		  <table class="sub">
+		  <table width=80% class="sub">
 			  <thead>
 				<tr>
 				  <th>Talent</th>				  
@@ -83,7 +84,6 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 			</table>
 			</td>
 	    </tr>
-	  <% end %>
     <% end # END FOR EACH SPEC %>
   </tbody>
 </table>
@@ -104,8 +104,9 @@ Tally of wins/losses for all matches containing at least one of a particular spe
   </thead>
   <tbody>
     <% @records_by_team.each do |spec_rec| %>
-      <tr>
-		<td><b><%= spec_rec[1][:team] %></b></td>		
+      <tr class="spec">
+		<td><span class="toggle">▶</span>
+		    <b><%= spec_rec[1][:team] %></b></td>		
 		<td align="right"><%= spec_rec[1][:wins] %></td>		
 		<td align="right"><%= spec_rec[1][:winpct] %>%</td>
 		<td align="right"><%= spec_rec[1][:losses] %></td>					
@@ -116,11 +117,11 @@ Tally of wins/losses for all matches containing at least one of a particular spe
       </tr>
 
 	  <% # Now show the talents and talent percentages, under the spec %>	  	  
-	  <% if show_talents %>
-	  <tr>
+      <tr class="talent"><td>&nbsp;</td><td colspan="7">Talent Detail</td></tr>
+	  <tr class="talent">
 		<td></td>
 		<td colspan ="7">
-		  <table class="sub">
+		  <table class="sub" width="80%">
 			  <thead>
 				<tr>
 				  <th>Talent</th>				  
@@ -148,8 +149,7 @@ Tally of wins/losses for all matches containing at least one of a particular spe
 			</table>
 			</td>
 	    </tr>
-		<% end %>
-	  
+	   </tbody>
     <% end %>
   </tbody>
 </table>
