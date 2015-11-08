@@ -54,6 +54,7 @@ class Player < ActiveRecord::Base
   }
 
   def pvp_url
+    
   end
 
   def self.options_for_select
