@@ -3,6 +3,7 @@ require 'json'
 class ReportsController < ApplicationController
 
   def index
+    logger.debug "INTO REPORTS INDEX. HI."
   end
 
   def run
@@ -62,11 +63,25 @@ class ReportsController < ApplicationController
 #    end_time = DateTime.now
 
     @player = Player.find @params[:player_id]
+    # get other player info:
+    if params[:player_id2].to_i > 0
+      @player2 = Player.find params[:player_id2]
+      logger.debug "Looking for matches with '#{@player2.name}'"
+      matches = @player.matches & @player2.matches
+      if matches.empty? 
+        logger.debug "None found"
+        return
+      end
+    else
+      @player2 = nil
+      matches = @player.matches
+    end
+        
     # Get all the scores for that player
-    Score.where(player_id: @player.id).find_each do |my_score|
+    @player.scores.select { |s| matches.include?(s.match) }.each do |my_score|
       logger.debug "MY SCORE: " + my_score.as_json.to_s
       # Grab out the match that matches =)
-      match = Match.find_by(id: my_score.match_id)
+      match = my_score.match
       logger.debug "THE MATCH: " + match.as_json.to_s
       # Get the date/time associated with the score to see if we care.
       # match_time = match.date_time.strptime("%Y-%m-%dT%H:%M:%S")      
@@ -89,21 +104,6 @@ class ReportsController < ApplicationController
       
       if (match_time > start_time) and (match_time < end_time)        
         logger.debug "Match in right time period"
-        # get other player info:
-        if @params[:player_id2].to_i > 0
-          @player2 = Player.find @params[:player_id2]
-          logger.debug "Looking for next player: " + @player2.name
-          check_player = true
-        else
-          check_player = false
-        end
-        
-        
-        
-        # if match.reference.include? "Asaemon"
-        if !check_player or match.reference.include? @player2.name
-        
-          logger.debug "Got a match on the name and date"
         
           # For that match, see if we won or lost.
           b_won = (match.winning_faction == my_score.player_faction) ? true : false
@@ -112,7 +112,7 @@ class ReportsController < ApplicationController
           specs_seen = Array.new
 
           # Find all the OTHER scores associated with that match ID
-          Score.where(match_id: my_score.match_id).find_each do |single_match_score|
+          match.scores.each do |single_match_score|
             logger.debug "MATCH SCORE: " + single_match_score.as_json.to_s
 
             # If the score isn't OUR score, look at the specs
@@ -221,9 +221,6 @@ class ReportsController < ApplicationController
           end
           @total_teams_seen += 1
           @total_matches += 1 
-        else
-          logger.debug("match didn't have other player.")
-        end # end if the match has the partner we care about
       end # end if the match is in the range we care about
     end # end - for all scores matching the player-of-interest id
 
