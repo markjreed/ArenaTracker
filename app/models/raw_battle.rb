@@ -27,7 +27,7 @@ class RawBattle < ActiveRecord::Base
     #####################################################
     begin
       match = Match.find_by reference: reference
-    rescue ActiveRecord::RecordNotFound => e
+    rescue ActiveRecord::RecordNotFound 
       match = nil
     end
 
@@ -70,7 +70,7 @@ class RawBattle < ActiveRecord::Base
         logger.debug("times: " + m.match_start.to_s + " " + m.match_end.to_s + " " + m.death_times)
       end
 
-      mat = Match.find_by reference: reference
+      match = Match.find_by reference: reference
       logger.debug ("a = " + match.id.to_s)
       match_id = match.id
       logger.debug ("b = " + match_id.to_s)
@@ -101,11 +101,13 @@ class RawBattle < ActiveRecord::Base
           p_server =  server_name
           p_name = sl[0]
         else
-          p_name = (sl[0].split("-"))[0]
-          p_server = (sl[0].split("-"))[1]
+          p_name, p_server = sl[0].split(/-/)
         end
 
-        player = Player.find_or_create_by(name: p_name, server_name: p_server, class_name: sl[7], spec_name: sl[15])
+        logger.debug("CREATING SERVER")
+        server = Server.find_or_create_by(name: p_server)
+        logger.debug("CREATING PLAYER")
+        player = Player.find_or_create_by(name: p_name, server: server, class_name: sl[7], spec_name: sl[15])
 
         # Now that we have the player and the match ID, make the score.
         Score.create do |s|
@@ -132,18 +134,18 @@ class RawBattle < ActiveRecord::Base
     else
       logger.debug("got player: " + matches[1])
       if !matches[1].include? "-"
-        player_server =  server_name
+        player_server =  server_name || server.name
         player_name = matches[1]
       else
-        player_name = (matches[1].split("-"))[0]
-        player_server = (matches[1].split("-"))[1]
+        player_name, player_server = matches[1].split(/-/)
       end
       logger.debug("Player: " + player_name)
       logger.debug("Server: " + player_server)
     end
+    player_server_object = Server.find_by(name: player_server)
 
     # There should be only one
-    logging_player = Player.find_by(name: player_name, server_name: player_server)
+    logging_player = Player.find_by(name: player_name, server: player_server_object)
     logger.debug("found player, spec: " + logging_player.spec_name)
 
     # MatchTalentGlyphSelection.find_or_create_by(player: logging_player, match_id: match_id, talent_glyph_selection_id: tals_and_glyphs.id)
