@@ -64,8 +64,8 @@ Showing <%= @matches.count %> total matches
 		<% else %>
 		  <tr>
 		<% end %>	
-			<td><%= winner_text %></td>
-			<td><%= link_to Player.find(score.player_id).name %></td>
+			<td><%= winner_text %></td>			
+			<td><a href="<%= get_pvp_url(score.player_id) %>"><%= Player.find(score.player_id).name %>-<%= Player.find(score.player_id).server_name %></td>
 			<td><%= Player.find(score.player_id).class_name %></td>
 			<td><%= Player.find(score.player_id).spec_name %></td>
 			<td><%= score.killing_blows %></td>		
@@ -99,6 +99,83 @@ Showing <%= @matches.count %> total matches
 
 
 
+<% # SUPPORT FUNCTIONS %>
+<%
+    def get_pvp_url(player_id)
+		name = Player.find(player_id).name
+		server_name = Player.find(player_id).server_name
+		pvp_url = "http://eu.battle.net/wow/en/character/" + translated_server_name(server_name) + "/" +
+		name + "/pvp#bgs"
+			
+		return pvp_url
+	end
+	
+	def translated_server_name(server)
+		# If the name is in the hash (for Russian servers), return
+		# the field belonging to the key.  Otherwise, just lowercase
+		# the server name and replace spaces with dashes.
+		servers = {
+			"Азурегос" => "azuregos",
+			"ВечнаяПесня" => "eversong",
+			"Дракономор" => "fordragon",
+			"Галакронд" => "galakrond",
+			"Голдринн" => "goldrinn",
+			"Гром" => "grom",
+			"Корольлич" => "lich-king",			
+			"Пиратскаябухта" => "booty-bay",  # guess
+			"Подземье" => "deephome",
+			"Разувий" => "razuvious",
+			"Ревущийфьорд" => "howling-fjord",
+			"СвежевательДуш" => "soulflayer",
+			"Седогрив" => "greymane",
+			"СтражСмерти" => "deathguard",
+			"Термоштепсель" => "thermaplugg",
+			"ТкачСмерти" => "deathweaver",  # guess
+			"ЧерныйШрам" => "blackscar",
+			"Ясеневыйлес" => "ashenvale",
+			"Ahn'Qiraj" => "ahnqiraj",
+			"Aman'Thul" => "amanthul",
+			"Area52" => "area-52",
+			"ArgentDawn" => "argent-dawn",
+			"AzjolNerub" => "azjol-nerub",
+			"BurningBlade" => "burning-blade",
+			"BurningLegion" => "burning-legion",
+			"C'Thun" => "cthun",
+			"ChamberofAspects" => "chamber-of-aspects",
+			"Chantséternels" => "chants-eternels",
+			"Cho’gall" => "chogall",
+			"CultedelaRivenoire" => "culte-de-la-rive-noire",
+			"DarkmoonFaire" => "darkmoon-faire",	
+			"DefiasBrotherhood" => "defias-brotherhood",
+			"DieNachtwache" => "die-nachtwache",		
+			"DieArguswacht" => "die-arguswacht",	
+			"Drak'thul" => "drakthul",
+			"DunModr" => "dun-modr",
+			"EmeraldDream" => "emerald-dream",
+			"Eldre'Thalas" => "eldrethalas",
+			"Kil'jaeden" => "kiljaeden",
+			"KultderVerdammten" => "kult-der-verdammten",
+			"KulTiras" => "kul-tiras",
+			"KhazModan" => "khaz-modan",
+			"LaCroisadeécarlate" => "la-croisade-ecarlate",
+			"LosErrantes" => "los-errantes",
+			"Mal'Ganis" => "malganis",
+			"Pozzodell'Eternità" => "pozzo-delleternita",
+			"Quel'Thalas" => "quelthalas",
+			"ScarshieldLegion" => "scarshield-legion",
+			"ShatteredHalls" => "shattered-halls",
+			"ShatteredHand" => "shattered-hand",
+			"TarrenMill" => "tarren-mill",
+			"TheMaelstrom" => "the-maelstrom",
+			"Twilight'sHammer" => "twilights-hammer",
+			"TwistingNether" => "twisting-nether",
+			"Zul'jin" => "zuljin",			 
+			"GrimBatol" => "grim-batol"}
+		
+		return servers.has_key?(server) ? servers[server] : server.downcase.gsub(' ', '-')
+		
+	end
+%>
 
 
 
