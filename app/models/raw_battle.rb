@@ -55,6 +55,19 @@ class RawBattle < ActiveRecord::Base
         
         m.reference = reference  
         m.mmr_list = ""
+        
+        #####################################################
+        # If we see joined/left times and death times, just
+        # save them off.  Anyone in the match should have
+        # data that more or less matches.  Time zone irrelevant
+        #####################################################
+        time_hash = get_times_from_match
+        logger.debug("got times")
+        m.match_start = time_hash[:joined_time]
+        m.match_end = time_hash[:left_time]
+        m.match_duration = time_hash[:length]
+        m.death_times = time_hash[:death_times]
+        logger.debug("times: " + m.match_start.to_s + " " + m.match_end.to_s + " " + m.death_times)
       end
       
       mat = Match.find_by reference: reference    
@@ -171,7 +184,11 @@ class RawBattle < ActiveRecord::Base
       # (if it's not already there)
       #####################################################    
       MatchTalentGlyphSelection.find_or_create_by(player: logging_player, match_id: match_id, talent_glyph_selection_id: tals_and_glyphs.id)
-        
+      
+
+      
+      
+      
       #####################################################    
       # If there are new talents, there's a chance that
       # there will be new match making scores to factor in, so append
@@ -247,7 +264,7 @@ class RawBattle < ActiveRecord::Base
       re = /NOTES:(.*) ENOTES/
       matches = self.raw_battle_data.match re
       if matches.nil?
-        logger.debug("Glyphs not found")
+        logger.debug("Notes not found")
       else
         logger.debug("got note: " + matches[1]) 
         pmi.note = matches[1]
@@ -257,7 +274,7 @@ class RawBattle < ActiveRecord::Base
       re = /BDEATH:(.*) EDEATH/
       matches = self.raw_battle_data.match re
       if matches.nil?
-        logger.debug("Glyphs not found")
+        logger.debug("Death notes not found")
       else
         logger.debug("got note: " + matches[1]) 
         pmi.note = pmi.note + "^^^^" + matches[1]
@@ -444,4 +461,83 @@ class RawBattle < ActiveRecord::Base
     end # if mmrs were found for match
     return mmrs
   end # f get mmrs from match
+  
+  def get_times_from_match
+    logger = Logger.new('test.log')
+    logger.debug("Getting times from match - start/end/died")
+    
+    match_times = { }
+    
+    re = /.*JOINED:([^,]*)/
+    matches = self.raw_battle_data.match re
+    if matches.nil?
+      logger.debug("Joined time not found")
+    else      
+      match_times[:joined_time] = matches[1].to_datetime      
+    end
+    
+    re = /.*LEFT:([^,]*)/
+    matches = self.raw_battle_data.match re
+    if matches.nil?
+      logger.debug("Left time not found")
+    else
+      match_times[:left_time] = matches[1].to_datetime
+    end
+    
+    # BDEATH:Ülträdin-Outland|2015-11-08T11:34:55 EDEATH
+    re = /BDEATH(?:(?!BDEATH).)*? EDEATH/
+    matches = self.raw_battle_data.scan re
+    if matches.nil?
+      logger.debug("Death time not found")
+    else
+      logger.debug ("death time array:")
+      logger.debug (matches.to_s)
+      death_string = ""
+      matches.each do |death_time|
+      
+        re = /BDEATH:([^|]*)/
+        name_matches = death_time.match re
+        if name_matches.nil?
+          logger.debug("Name not found in death time: " + death_time)
+        else
+          logger.debug("name  found array: " + name_matches.to_s)
+          logger.debug("Name found: " + name_matches[1])
+          death_name = name_matches[1]
+          
+          # now get time.
+          re = /\|(20[^ ]*)/
+          time_matches = death_time.match re
+          if time_matches.nil?
+            logger.debug("time not found in death time: " + death_time)
+          else
+            logger.debug("time found: " + time_matches.to_s)
+            death_timestamp = time_matches[1].to_datetime
+            logger.debug(death_timestamp.utc.strftime("%H:%M:%S"))
+            logger.debug(death_timestamp.utc.strftime("%c"))
+            logger.debug(match_times[:joined_time].utc.strftime("%H:%M:%S"))
+            logger.debug(match_times[:joined_time].utc.strftime("%c"))
+            match_len = (death_timestamp - match_times[:joined_time]) * 1.days
+            logger.debug("length: " + Time.at(match_len).utc.strftime("%M:%S"))
+            
+            death_string = death_string + death_name + ": " +  Time.at(match_len).utc.strftime("%M:%S") + ","
+            logger.debug("death string: " + death_string)
+          end # end if found time in death
+            
+        end # end if found name in death
+        match_times[:death_times] = death_string
+      end # for each death time
+    end # if there are death times
+    
+    match_times[:length] = Time.at((match_times[:left_time] - match_times[:joined_time])  * 1.days)
+    logger.debug("total match length: " + match_times[:length].to_s)
+    logger.debug("total match length in seconds: " + (match_times[:left_time] - match_times[:joined_time]).to_s)
+    logger.debug("match durati: " + Time.at(match_times[:length]).utc.strftime("%M:%S"))
+    
+    
+    return match_times
+  end # f get_times_from_match
+  
+ 
+	
+  
 end # RawBattle

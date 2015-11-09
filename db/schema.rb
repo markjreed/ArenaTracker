@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029150010) do
+ActiveRecord::Schema.define(version: 20151109153325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20151029150010) do
     t.datetime "match_start"
     t.datetime "match_end"
     t.text     "death_times"
+    t.datetime "match_duration"
   end
 
   create_table "personal_match_infos", force: true do |t|

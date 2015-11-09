@@ -1,3 +1,93 @@
+
+<% # SUPPORT FUNCTIONS %>
+<%
+
+	def translated_server_name(server)
+		# If the name is in the hash (for Russian servers), return
+		# the field belonging to the key.  Otherwise, just lowercase
+		# the server name and replace spaces with dashes.
+		servers = {
+			"Азурегос" => "azuregos",
+			"ВечнаяПесня" => "eversong",
+			"Дракономор" => "fordragon",
+			"Галакронд" => "galakrond",
+			"Голдринн" => "goldrinn",
+			"Гром" => "grom",
+			"Корольлич" => "lich-king",			
+			"Пиратскаябухта" => "booty-bay",  # guess
+			"Подземье" => "deephome",
+			"Разувий" => "razuvious",
+			"Ревущийфьорд" => "howling-fjord",
+			"СвежевательДуш" => "soulflayer",
+			"Седогрив" => "greymane",
+			"СтражСмерти" => "deathguard",
+			"Термоштепсель" => "thermaplugg",
+			"ТкачСмерти" => "deathweaver",  # guess
+			"ЧерныйШрам" => "blackscar",
+			"Ясеневыйлес" => "ashenvale",
+			"Ahn'Qiraj" => "ahnqiraj",
+			"Aman'Thul" => "amanthul",
+			"Area52" => "area-52",
+			"ArgentDawn" => "argent-dawn",
+			"AzjolNerub" => "azjol-nerub",
+			"BurningBlade" => "burning-blade",
+			"BurningLegion" => "burning-legion",
+			"C'Thun" => "cthun",
+			"ChamberofAspects" => "chamber-of-aspects",
+			"Chantséternels" => "chants-eternels",
+			"Cho’gall" => "chogall",
+			"CultedelaRivenoire" => "culte-de-la-rive-noire",
+			"DarkmoonFaire" => "darkmoon-faire",	
+			"DefiasBrotherhood" => "defias-brotherhood",
+			"DieNachtwache" => "die-nachtwache",		
+			"DieArguswacht" => "die-arguswacht",	
+			"Drak'thul" => "drakthul",
+			"DunModr" => "dun-modr",
+			"EmeraldDream" => "emerald-dream",
+			"Eldre'Thalas" => "eldrethalas",
+			"Kil'jaeden" => "kiljaeden",
+			"KultderVerdammten" => "kult-der-verdammten",
+			"KulTiras" => "kul-tiras",
+			"KhazModan" => "khaz-modan",
+			"LaCroisadeécarlate" => "la-croisade-ecarlate",
+			"LosErrantes" => "los-errantes",
+			"Mal'Ganis" => "malganis",
+			"Pozzodell'Eternità" => "pozzo-delleternita",
+			"Quel'Thalas" => "quelthalas",
+			"ScarshieldLegion" => "scarshield-legion",
+			"ShatteredHalls" => "shattered-halls",
+			"ShatteredHand" => "shattered-hand",
+			"TarrenMill" => "tarren-mill",
+			"TheMaelstrom" => "the-maelstrom",
+			"Twilight'sHammer" => "twilights-hammer",
+			"TwistingNether" => "twisting-nether",
+			"Zul'jin" => "zuljin",			 
+			"GrimBatol" => "grim-batol"}
+		
+		return servers.has_key?(server) ? servers[server] : server.downcase.gsub(' ', '-')
+		
+	end
+
+    def get_pvp_url(player_id)
+		name = Player.find(player_id).name
+		server_name = Player.find(player_id).server_name
+		pvp_url = "http://eu.battle.net/wow/en/character/" + translated_server_name(server_name) + "/" +
+		name + "/pvp#bgs"
+			
+		return pvp_url
+	end
+	
+	def get_match_length(match)
+		length = (match.match_end - match.match_start)
+	end
+	
+	def get_death_times(match)
+		length = (match.match_end - match.match_start)
+	end
+	
+%>
+
+
 <h1>Match History</h1>
 
 Showing <%= @matches.count %> total matches
@@ -16,10 +106,12 @@ Showing <%= @matches.count %> total matches
       <tr>		
         <td><br>
 			<b><%= match.arena_name %></b> - <%= match.date_time %><br>            
+			Match time (MM:SS): <%= Time.at(get_match_length(match)).utc.strftime("%M:%S") %><br>
+			<%= match.death_times.split(',').uniq.join(", ") %><br>
 			<% if match.mmr_list.length > 1 %>
 			Approximate MMR:<% mmr_list = match.mmr_list
 				mmr_list[0] = '' %>
-			<%= mmr_list.split(",").map(&:to_i).instance_eval { reduce(:+) / size.to_f.round } %>
+			<%= mmr_list.split(",").map(&:to_i).instance_eval { reduce(:+) / size.to_f.round } %>			
 		<% else %>
 			Skirmish
 		<% end %> </td>
@@ -98,84 +190,6 @@ Showing <%= @matches.count %> total matches
 </table>
 
 
-
-<% # SUPPORT FUNCTIONS %>
-<%
-    def get_pvp_url(player_id)
-		name = Player.find(player_id).name
-		server_name = Player.find(player_id).server_name
-		pvp_url = "http://eu.battle.net/wow/en/character/" + translated_server_name(server_name) + "/" +
-		name + "/pvp#bgs"
-			
-		return pvp_url
-	end
-	
-	def translated_server_name(server)
-		# If the name is in the hash (for Russian servers), return
-		# the field belonging to the key.  Otherwise, just lowercase
-		# the server name and replace spaces with dashes.
-		servers = {
-			"Азурегос" => "azuregos",
-			"ВечнаяПесня" => "eversong",
-			"Дракономор" => "fordragon",
-			"Галакронд" => "galakrond",
-			"Голдринн" => "goldrinn",
-			"Гром" => "grom",
-			"Корольлич" => "lich-king",			
-			"Пиратскаябухта" => "booty-bay",  # guess
-			"Подземье" => "deephome",
-			"Разувий" => "razuvious",
-			"Ревущийфьорд" => "howling-fjord",
-			"СвежевательДуш" => "soulflayer",
-			"Седогрив" => "greymane",
-			"СтражСмерти" => "deathguard",
-			"Термоштепсель" => "thermaplugg",
-			"ТкачСмерти" => "deathweaver",  # guess
-			"ЧерныйШрам" => "blackscar",
-			"Ясеневыйлес" => "ashenvale",
-			"Ahn'Qiraj" => "ahnqiraj",
-			"Aman'Thul" => "amanthul",
-			"Area52" => "area-52",
-			"ArgentDawn" => "argent-dawn",
-			"AzjolNerub" => "azjol-nerub",
-			"BurningBlade" => "burning-blade",
-			"BurningLegion" => "burning-legion",
-			"C'Thun" => "cthun",
-			"ChamberofAspects" => "chamber-of-aspects",
-			"Chantséternels" => "chants-eternels",
-			"Cho’gall" => "chogall",
-			"CultedelaRivenoire" => "culte-de-la-rive-noire",
-			"DarkmoonFaire" => "darkmoon-faire",	
-			"DefiasBrotherhood" => "defias-brotherhood",
-			"DieNachtwache" => "die-nachtwache",		
-			"DieArguswacht" => "die-arguswacht",	
-			"Drak'thul" => "drakthul",
-			"DunModr" => "dun-modr",
-			"EmeraldDream" => "emerald-dream",
-			"Eldre'Thalas" => "eldrethalas",
-			"Kil'jaeden" => "kiljaeden",
-			"KultderVerdammten" => "kult-der-verdammten",
-			"KulTiras" => "kul-tiras",
-			"KhazModan" => "khaz-modan",
-			"LaCroisadeécarlate" => "la-croisade-ecarlate",
-			"LosErrantes" => "los-errantes",
-			"Mal'Ganis" => "malganis",
-			"Pozzodell'Eternità" => "pozzo-delleternita",
-			"Quel'Thalas" => "quelthalas",
-			"ScarshieldLegion" => "scarshield-legion",
-			"ShatteredHalls" => "shattered-halls",
-			"ShatteredHand" => "shattered-hand",
-			"TarrenMill" => "tarren-mill",
-			"TheMaelstrom" => "the-maelstrom",
-			"Twilight'sHammer" => "twilights-hammer",
-			"TwistingNether" => "twisting-nether",
-			"Zul'jin" => "zuljin",			 
-			"GrimBatol" => "grim-batol"}
-		
-		return servers.has_key?(server) ? servers[server] : server.downcase.gsub(' ', '-')
-		
-	end
-%>
 
 
 
