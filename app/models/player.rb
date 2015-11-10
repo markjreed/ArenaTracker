@@ -7,7 +7,9 @@ class Player < ActiveRecord::Base
   has_many :match_talent_glyph_selections
   belongs_to :server
 
-  def server_name; server.name end
+  def server_name
+    has_attribute?(:server_name) ? self[:server_name] : server.name
+  end
 
   filterrific(
     default_filter_params: { sorted_by: 'name_asc' },
