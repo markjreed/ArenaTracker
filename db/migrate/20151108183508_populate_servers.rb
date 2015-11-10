@@ -1,5 +1,5 @@
 class PopulateServers < ActiveRecord::Migration
-  def change
+  def up
     {
       "Ahn'Qiraj"          =>  "ahnqiraj",
       "Aman'Thul"          =>  "amanthul",
@@ -57,8 +57,15 @@ class PopulateServers < ActiveRecord::Migration
       "Термоштепсель"      =>  "thermaplugg",
       "Пиратскаябухта"     =>  "booty-bay",              #  guess
       "СвежевательДуш"     =>  "soulflayer"
-   }.each do | name, trans |
-      Server.create(name: name, translation: trans)
-   end
+    }.each do |name, trans|
+      Server.create name: name, translation: trans
+    end
+    Player.all.each do |p|
+      Server.find_or_create_by(name: p.server_name)
+    end
+  end
+
+  def down
+    Server.delete_all
   end
 end
