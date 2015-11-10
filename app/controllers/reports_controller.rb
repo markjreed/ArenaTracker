@@ -33,8 +33,53 @@ class ReportsController < ApplicationController
         tal_tally[:losses] += 1        
       end    
     end
-    
-    
+       
+  end
+  
+  def qualifying_matches
+      logger = Logger.new('test.log')
+      
+      # get other player info:
+      if params[:player_id2].to_i > 0
+        @player2 = Player.find params[:player_id2]
+        logger.debug "Looking for matches with '#{@player2.name}'"
+        matches = @player.matches & @player2.matches
+        if matches.empty? 
+          logger.debug "None found"
+          return
+        end
+      else
+        @player2 = nil
+        matches = @player.matches
+      end
+      
+      # get rating info:
+      min_rating = params[:min_rating].to_i
+      max_rating = params[:max_rating].to_i
+      logger.debug "Looking for matches min '#{min_rating}'"
+      logger.debug "Looking for matches max '#{max_rating}'"
+      
+      if min_rating > 1 and max_rating < 4000
+        matches.each do |match|
+        
+          qualifying_matches = {}
+          
+          if match.mmr_list.length > 1
+            logger.debug "match has some scores: '#{match.mmr_list.length}'"
+            mmr_list = match.mmr_list
+            mmr_list[0] = '' 
+            avg_mmr = mmr_list.split(",").map(&:to_i).instance_eval { reduce(:+) / size.to_f.round }
+            logger.debug "average mmr: '#{avg_mmr}'"
+            if avg_mmr > min_rating and avg_mmr < max_rating
+              qualifying_matches << match
+            end # qualifies based on mmr          
+          end # if there are mmrs        
+        end
+      else
+        qualifying_matches = matches
+      end # for each match, check match-related things
+      
+      return qualifying_matches
   end
   
   def vsspec
@@ -55,14 +100,14 @@ class ReportsController < ApplicationController
     #start_time = DateTime.new(2013, 10, 16, 18, 0)
     #end_time = DateTime.new(2019, 10, 16, 23, 59)
     logger.debug "From date: " + @params[:from_date]
-    logger.debug "To date: " + @params[:to_date]
-# FOR EASE OF TESTING - take out hard coding!    
+    logger.debug "To date: " + @params[:to_date] 
     start_time = DateTime.parse(@params[:from_date])
     end_time = DateTime.parse(@params[:to_date])
-#    start_time = Date.today - 120
-#    end_time = DateTime.now
 
     @player = Player.find @params[:player_id]
+    
+    matches = qualifying_matches()
+=begin    
     # get other player info:
     if params[:player_id2].to_i > 0
       @player2 = Player.find params[:player_id2]
@@ -76,6 +121,7 @@ class ReportsController < ApplicationController
       @player2 = nil
       matches = @player.matches
     end
+=end
         
     # Get all the scores for that player
     @player.scores.select { |s| matches.include?(s.match) }.each do |my_score|

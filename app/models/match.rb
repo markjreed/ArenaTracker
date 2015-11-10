@@ -4,11 +4,21 @@ class Match < ActiveRecord::Base
   has_many :players, through: :scores
   has_many :match_talent_glyph_selections
   
+  # any methods def'ed here become instance methods on Match objects
+  def mmrs
+     mmr_list.nil? ? [] : mmr_list.split(/,/).map(&:to_i)
+  end
+  
+  def mmr_avg
+     mmrs.instance_eval { empty? ? 0 : reduce(0,:+) / size.to_f.round }
+  end
+  
   filterrific(
     default_filter_params: { sorted_by: 'date_time_desc' },
     available_filters: [
       :sorted_by,
-      :with_player            
+      :with_player,
+      :mmr_above
     ]
   )
   
@@ -26,8 +36,12 @@ class Match < ActiveRecord::Base
     end
   }
   
-  scope :with_player, lambda { |player|
+  scope :with_player, lambda { |players|
     where player: [*players]
+  }
+  
+  scope :mmr_above, lambda { |mmr|
+    select { |match| match.mmr_avg > mmr } 
   }
   
 end
